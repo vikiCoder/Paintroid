@@ -41,7 +41,7 @@ public class GeometricCutTool extends BaseToolWithRectangleShape {
 
 	private static final boolean ROTATION_ENABLED = true;
 	private static final boolean RESPECT_IMAGE_BOUNDS = false;
-	private static final float SHAPE_OFFSET = 10f;
+	private static final float SHAPE_OFFSET = 0f;
 
 	private BaseShape mBaseShape;
 	private ShapeDrawType mShapeDrawType;
@@ -60,7 +60,7 @@ public class GeometricCutTool extends BaseToolWithRectangleShape {
 		setRotationEnabled(ROTATION_ENABLED);
 		setRespectImageBounds(RESPECT_IMAGE_BOUNDS);
 
-		mBaseShape = BaseShape.OVAL;
+		mBaseShape = BaseShape.RECTANGLE;
 
 		mShapeDrawType = ShapeDrawType.FILL;
 
