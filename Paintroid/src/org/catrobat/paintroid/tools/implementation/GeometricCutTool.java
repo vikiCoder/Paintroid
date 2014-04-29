@@ -20,10 +20,10 @@
 package org.catrobat.paintroid.tools.implementation;
 
 import org.catrobat.paintroid.PaintroidApplication;
+import org.catrobat.paintroid.R;
 import org.catrobat.paintroid.command.Command;
 import org.catrobat.paintroid.command.implementation.CutCommand;
 import org.catrobat.paintroid.dialog.ProgressIntermediateDialog;
-import org.catrobat.paintroid.dialog.colorpicker.ColorPickerDialog.OnColorPickedListener;
 import org.catrobat.paintroid.tools.ToolType;
 import org.catrobat.paintroid.ui.DrawingSurface;
 import org.catrobat.paintroid.ui.TopBar.ToolButtonIDs;
@@ -60,21 +60,9 @@ public class GeometricCutTool extends BaseToolWithRectangleShape {
 		setRotationEnabled(ROTATION_ENABLED);
 		setRespectImageBounds(RESPECT_IMAGE_BOUNDS);
 
-		if (toolType == ToolType.ELLIPSE) {
-			mBaseShape = BaseShape.OVAL;
-		} else {
-			mBaseShape = BaseShape.RECTANGLE;
-		}
+		mBaseShape = BaseShape.OVAL;
 
 		mShapeDrawType = ShapeDrawType.FILL;
-
-		mColor = new OnColorPickedListener() {
-			@Override
-			public void colorChanged(int color) {
-				changePaintColor(color);
-				createAndSetBitmap(PaintroidApplication.drawingSurface);
-			}
-		};
 
 		createAndSetBitmap(PaintroidApplication.drawingSurface);
 	}
@@ -83,12 +71,6 @@ public class GeometricCutTool extends BaseToolWithRectangleShape {
 	public void setDrawPaint(Paint paint) {
 		// necessary because of timing in MainActivity and Eraser
 		super.setDrawPaint(paint);
-		createAndSetBitmap(PaintroidApplication.drawingSurface);
-	}
-
-	@Override
-	public void changePaintColor(int color) {
-		super.changePaintColor(color);
 		createAndSetBitmap(PaintroidApplication.drawingSurface);
 	}
 
@@ -112,7 +94,7 @@ public class GeometricCutTool extends BaseToolWithRectangleShape {
 				- SHAPE_OFFSET, mBoxHeight - SHAPE_OFFSET);
 		Paint drawPaint = new Paint();
 
-		drawPaint.setColor(Color.TRANSPARENT);
+		drawPaint.setColor(Color.argb(35, 35, 35, 35));
 		drawPaint.setAntiAlias(DEFAULT_ANTIALISING_ON);
 
 		switch (mShapeDrawType) {
@@ -152,7 +134,7 @@ public class GeometricCutTool extends BaseToolWithRectangleShape {
 		Point intPosition = new Point((int) mToolPosition.x,
 				(int) mToolPosition.y);
 		Command command = new CutCommand(mDrawingBitmap, intPosition,
-				mBoxWidth, mBoxHeight, mBoxRotation);
+				mBoxWidth, mBoxHeight, mBoxRotation, mBaseShape.ordinal());
 		((CutCommand) command).addObserver(this);
 		ProgressIntermediateDialog.getInstance().show();
 		PaintroidApplication.commandManager.commitCommand(command);
@@ -162,8 +144,14 @@ public class GeometricCutTool extends BaseToolWithRectangleShape {
 	public void attributeButtonClick(ToolButtonIDs buttonNumber) {
 		switch (buttonNumber) {
 		case BUTTON_ID_PARAMETER_TOP:
+			break;
+		case BUTTON_ID_PARAMETER_BOTTOM_1:
+			mBaseShape = BaseShape.RECTANGLE;
+			createAndSetBitmap(PaintroidApplication.drawingSurface);
+			break;
 		case BUTTON_ID_PARAMETER_BOTTOM_2:
-			showColorPicker();
+			mBaseShape = BaseShape.OVAL;
+			createAndSetBitmap(PaintroidApplication.drawingSurface);
 			break;
 		default:
 			break;
@@ -173,8 +161,10 @@ public class GeometricCutTool extends BaseToolWithRectangleShape {
 	@Override
 	public int getAttributeButtonResource(ToolButtonIDs buttonNumber) {
 		switch (buttonNumber) {
+		case BUTTON_ID_PARAMETER_BOTTOM_1:
+			return R.drawable.icon_menu_rectangle;
 		case BUTTON_ID_PARAMETER_BOTTOM_2:
-			return NO_BUTTON_RESOURCE;
+			return R.drawable.icon_menu_ellipse;
 		default:
 			return super.getAttributeButtonResource(buttonNumber);
 		}

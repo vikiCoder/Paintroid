@@ -36,13 +36,19 @@ public class CutCommand extends BaseCommand {
 	protected final float mBoxHeight;
 	protected final float mBoxRotation;
 	protected final RectF mBoxRect;
+	protected final int type;
 
 	public CutCommand(Bitmap bitmap, Point position, float width, float height,
-			float rotation) {
+			float rotation, int type) {
 		super(new Paint(Paint.DITHER_FLAG));
 
 		mPaint.setColor(Color.TRANSPARENT);
-		mPaint.setXfermode(new PorterDuffXfermode(Mode.CLEAR));
+
+		this.type = type;
+
+		if (mPaint.getColor() == Color.TRANSPARENT) {
+			mPaint.setXfermode(new PorterDuffXfermode(Mode.CLEAR));
+		}
 
 		if (position != null) {
 			mCoordinates = new Point(position.x, position.y);
@@ -76,8 +82,18 @@ public class CutCommand extends BaseCommand {
 		canvas.save();
 		canvas.translate(mCoordinates.x, mCoordinates.y);
 		canvas.rotate(mBoxRotation);
-		canvas.drawBitmap(mBitmap, null, mBoxRect, mPaint);
+		// canvas.drawBitmap(mBitmap, null, mBoxRect, mPaint);
 
+		switch (type) {
+		case 0:
+			canvas.drawRect(mBoxRect, mPaint);
+			break;
+		case 1:
+			canvas.drawOval(mBoxRect, mPaint);
+			break;
+		default:
+			break;
+		}
 		canvas.restore();
 
 		if (mFileToStoredBitmap == null) {
