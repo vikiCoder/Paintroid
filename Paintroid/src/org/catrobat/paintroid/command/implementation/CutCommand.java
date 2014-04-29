@@ -26,6 +26,8 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Point;
+import android.graphics.PorterDuff.Mode;
+import android.graphics.PorterDuffXfermode;
 import android.graphics.RectF;
 
 public class CutCommand extends BaseCommand {
@@ -40,6 +42,7 @@ public class CutCommand extends BaseCommand {
 		super(new Paint(Paint.DITHER_FLAG));
 
 		mPaint.setColor(Color.TRANSPARENT);
+		mPaint.setXfermode(new PorterDuffXfermode(Mode.CLEAR));
 
 		if (position != null) {
 			mCoordinates = new Point(position.x, position.y);
@@ -73,8 +76,7 @@ public class CutCommand extends BaseCommand {
 		canvas.save();
 		canvas.translate(mCoordinates.x, mCoordinates.y);
 		canvas.rotate(mBoxRotation);
-		canvas.drawRect(mBoxRect, mPaint);
-		// canvas.drawBitmap(mBitmap, null, mBoxRect, mPaint);
+		canvas.drawBitmap(mBitmap, null, mBoxRect, mPaint);
 
 		canvas.restore();
 

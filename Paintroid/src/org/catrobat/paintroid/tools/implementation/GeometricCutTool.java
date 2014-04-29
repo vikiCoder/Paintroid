@@ -68,12 +68,10 @@ public class GeometricCutTool extends BaseToolWithRectangleShape {
 
 		mShapeDrawType = ShapeDrawType.FILL;
 
-		changePaintColor(Color.TRANSPARENT);
-
 		mColor = new OnColorPickedListener() {
 			@Override
 			public void colorChanged(int color) {
-				changePaintColor(Color.TRANSPARENT);
+				changePaintColor(color);
 				createAndSetBitmap(PaintroidApplication.drawingSurface);
 			}
 		};
@@ -90,7 +88,7 @@ public class GeometricCutTool extends BaseToolWithRectangleShape {
 
 	@Override
 	public void changePaintColor(int color) {
-		super.changePaintColor(Color.TRANSPARENT);
+		super.changePaintColor(color);
 		createAndSetBitmap(PaintroidApplication.drawingSurface);
 	}
 
