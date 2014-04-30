@@ -45,10 +45,7 @@ public class CutCommand extends BaseCommand {
 		mPaint.setColor(Color.TRANSPARENT);
 
 		this.type = type;
-
-		if (mPaint.getColor() == Color.TRANSPARENT) {
-			mPaint.setXfermode(new PorterDuffXfermode(Mode.CLEAR));
-		}
+		mPaint.setXfermode(new PorterDuffXfermode(Mode.CLEAR));
 
 		if (position != null) {
 			mCoordinates = new Point(position.x, position.y);
@@ -82,7 +79,6 @@ public class CutCommand extends BaseCommand {
 		canvas.save();
 		canvas.translate(mCoordinates.x, mCoordinates.y);
 		canvas.rotate(mBoxRotation);
-		// canvas.drawBitmap(mBitmap, null, mBoxRect, mPaint);
 
 		switch (type) {
 		case 0:

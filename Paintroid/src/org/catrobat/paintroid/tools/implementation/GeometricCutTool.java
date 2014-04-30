@@ -44,11 +44,6 @@ public class GeometricCutTool extends BaseToolWithRectangleShape {
 	private static final float SHAPE_OFFSET = 0f;
 
 	private BaseShape mBaseShape;
-	private ShapeDrawType mShapeDrawType;
-
-	public static enum ShapeDrawType {
-		OUTLINE, FILL
-	};
 
 	public static enum BaseShape {
 		RECTANGLE, OVAL
@@ -62,8 +57,6 @@ public class GeometricCutTool extends BaseToolWithRectangleShape {
 
 		mBaseShape = BaseShape.RECTANGLE;
 
-		mShapeDrawType = ShapeDrawType.FILL;
-
 		createAndSetBitmap(PaintroidApplication.drawingSurface);
 	}
 
@@ -72,17 +65,6 @@ public class GeometricCutTool extends BaseToolWithRectangleShape {
 		// necessary because of timing in MainActivity and Eraser
 		super.setDrawPaint(paint);
 		createAndSetBitmap(PaintroidApplication.drawingSurface);
-	}
-
-	@Override
-	public int getAttributeButtonColor(ToolButtonIDs buttonNumber) {
-		switch (buttonNumber) {
-		case BUTTON_ID_TOOL:
-		case BUTTON_ID_PARAMETER_TOP:
-			return super.getAttributeButtonColor(buttonNumber);
-		default:
-			return Color.TRANSPARENT;
-		}
 	}
 
 	protected void createAndSetBitmap(DrawingSurface drawingSurface) {
@@ -97,23 +79,7 @@ public class GeometricCutTool extends BaseToolWithRectangleShape {
 		drawPaint.setColor(Color.argb(35, 35, 35, 35));
 		drawPaint.setAntiAlias(DEFAULT_ANTIALISING_ON);
 
-		switch (mShapeDrawType) {
-		case FILL:
-			drawPaint.setStyle(Style.FILL);
-			break;
-		case OUTLINE:
-			drawPaint.setStyle(Style.STROKE);
-			float strokeWidth = mBitmapPaint.getStrokeWidth();
-			shapeRect = new RectF(SHAPE_OFFSET + (strokeWidth / 2),
-					SHAPE_OFFSET + (strokeWidth / 2), mBoxWidth - SHAPE_OFFSET
-							- (strokeWidth / 2), mBoxHeight - SHAPE_OFFSET
-							- (strokeWidth / 2));
-			drawPaint.setStrokeWidth(strokeWidth);
-			drawPaint.setStrokeCap(Paint.Cap.BUTT);
-			break;
-		default:
-			break;
-		}
+		drawPaint.setStyle(Style.FILL);
 
 		switch (mBaseShape) {
 		case RECTANGLE:
