@@ -24,6 +24,7 @@ import org.catrobat.paintroid.PaintroidApplication;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.graphics.Paint.Style;
 import android.graphics.Path;
 import android.graphics.Rect;
 import android.graphics.RectF;
@@ -31,12 +32,23 @@ import android.util.Log;
 
 public class PathCommand extends BaseCommand {
 	protected Path mPath;
+	protected boolean lasso;
 
 	public PathCommand(Paint paint, Path path) {
 		super(paint);
 		if (path != null) {
 			mPath = new Path(path);
 		}
+		this.lasso = false;
+
+	}
+
+	public PathCommand(Paint paint, Path path, boolean lasso) {
+		super(paint);
+		if (path != null) {
+			mPath = new Path(path);
+		}
+		this.lasso = lasso;
 	}
 
 	@Override
@@ -58,6 +70,11 @@ public class PathCommand extends BaseCommand {
 		}
 
 		if (pathInCanvas(bounds, boundsCanvas)) {
+			if (this.lasso) {
+				mPaint.setStyle(Style.FILL);
+			} else {
+				mPaint.setStyle(Style.STROKE);
+			}
 			canvas.drawPath(mPath, mPaint);
 		} else {
 

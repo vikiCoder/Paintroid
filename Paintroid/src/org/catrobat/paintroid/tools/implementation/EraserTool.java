@@ -20,20 +20,31 @@
 package org.catrobat.paintroid.tools.implementation;
 
 import org.catrobat.paintroid.PaintroidApplication;
+import org.catrobat.paintroid.R;
 import org.catrobat.paintroid.tools.ToolType;
 import org.catrobat.paintroid.ui.TopBar.ToolButtonIDs;
 
-import android.content.Context;
+import android.app.Activity;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.PointF;
+import android.widget.Toast;
 
 public class EraserTool extends DrawTool {
 
 	protected Paint mPreviousPaint;
+	public boolean lasso;
 
-	public EraserTool(Context context, ToolType toolType) {
+	public boolean isLasso() {
+		return lasso;
+	}
+
+	public void setLasso(boolean lasso) {
+		this.lasso = lasso;
+	}
+
+	public EraserTool(Activity context, ToolType toolType) {
 		super(context, toolType);
 
 		mPreviousPaint = new Paint(
@@ -60,7 +71,7 @@ public class EraserTool extends DrawTool {
 	public int getAttributeButtonResource(ToolButtonIDs buttonNumber) {
 		switch (buttonNumber) {
 		case BUTTON_ID_PARAMETER_BOTTOM_2:
-			return NO_BUTTON_RESOURCE;
+			return R.drawable.icon_menu_clear;
 		default:
 			return super.getAttributeButtonResource(buttonNumber);
 		}
@@ -82,6 +93,12 @@ public class EraserTool extends DrawTool {
 		switch (buttonNumber) {
 		case BUTTON_ID_PARAMETER_BOTTOM_1:
 			super.attributeButtonClick(buttonNumber);
+			break;
+		case BUTTON_ID_PARAMETER_BOTTOM_2:
+			lasso = !lasso;
+			Toast.makeText(mContext, "Lasso: " + lasso, Toast.LENGTH_SHORT)
+					.show();
+			break;
 		default:
 			break;
 		}

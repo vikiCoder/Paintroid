@@ -118,7 +118,13 @@ public class DrawTool extends BaseTool {
 
 	protected boolean addPathCommand(PointF coordinate) {
 		pathToDraw.lineTo(coordinate.x, coordinate.y);
-		Command command = new PathCommand(mBitmapPaint, pathToDraw);
+		Command command;
+		if (this instanceof EraserTool) {
+			command = new PathCommand(mBitmapPaint, pathToDraw,
+					((EraserTool) this).isLasso());
+		} else {
+			command = new PathCommand(mBitmapPaint, pathToDraw);
+		}
 		PaintroidApplication.commandManager.commitCommand(command);
 		return true;
 	}
