@@ -90,7 +90,7 @@
     <string name="help_content_import_png">Import an image from the gallery to the stamp tool.</string>
     <string name="help_content_rotate">Click on the buttons to rotate the image left or right.</string>
     <string name="help_content_line">Draw a straight line.</string>
-    <string name="help_content_cut">Cut out a rectangle.</string>
+    <string name="help_content_cut">Cut out a rectangle or ellipse.</string>
     <string name="closing_security_question_title">Quit</string>
     <string name="closing_security_question">Save Changes?</string>
     <string name="closing_catroid_security_question_title">Back to Pocket Code</string>
