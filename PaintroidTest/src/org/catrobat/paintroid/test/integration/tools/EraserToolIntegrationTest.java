@@ -71,6 +71,52 @@ public class EraserToolIntegrationTest extends BaseIntegrationTestClass {
 		assertEquals("Pixel should still be transparent", Color.TRANSPARENT, colorAfterErase);
 	}
 
+	public void testUsingEraserLasso() throws SecurityException, IllegalArgumentException, NoSuchFieldException,
+			IllegalAccessException, InterruptedException {
+		assertTrue("Waiting for DrawingSurface", mSolo.waitForView(DrawingSurface.class, 1, TIMEOUT));
+
+		DrawingSurface drawingSurface = (DrawingSurface) getActivity().findViewById(R.id.drawingSurfaceView);
+
+		int clickCoordinateX = mScreenWidth / 2;
+		int clickCoordinateY = mScreenHeight / 2;
+
+		PointF pointOnScreen = new PointF(clickCoordinateX, clickCoordinateY);
+		PointF pointOnCanvas = PaintroidApplication.perspective.getCanvasPointFromSurfacePoint(pointOnScreen);
+
+		int colorBeforeErase = drawingSurface.getPixel(pointOnCanvas);
+		assertEquals("Get transparent background color", Color.TRANSPARENT, colorBeforeErase);
+
+		selectTool(ToolType.FILL);
+		mSolo.clickOnScreen(clickCoordinateX, clickCoordinateY);
+		mSolo.sleep(500);
+
+		colorBeforeErase = drawingSurface.getPixel(pointOnCanvas);
+		assertEquals("Get all filled with Black", Color.BLACK, colorBeforeErase);
+
+		selectTool(ToolType.ERASER);
+		mSolo.clickOnView(mMenuBottomParameter2);
+		mSolo.sleep(500);
+
+		int offset = 20;
+		int time = 10;
+
+		// I can't draw a ellipse or an rectangle without releasing the screen
+
+		mSolo.drag(clickCoordinateX - offset, clickCoordinateX + offset, clickCoordinateY + offset, clickCoordinateY
+				+ offset, time);
+		mSolo.sleep(500);
+		mSolo.drag(clickCoordinateX + offset, clickCoordinateX + offset, clickCoordinateY + offset, clickCoordinateY
+				- offset, time);
+		mSolo.sleep(500);
+		mSolo.drag(clickCoordinateX + offset, clickCoordinateX - offset, clickCoordinateY - offset, clickCoordinateY
+				- offset, time);
+
+		mSolo.sleep(500);
+		int colorAfterErase = drawingSurface.getPixel(pointOnCanvas);
+		// assertEquals("Pixel should be transparent", Color.TRANSPARENT, colorAfterErase);
+
+	}
+
 	public void testSwitchingBetweenBrushAndEraser() throws SecurityException, IllegalArgumentException,
 			NoSuchFieldException, IllegalAccessException {
 

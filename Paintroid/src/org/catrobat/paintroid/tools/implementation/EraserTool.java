@@ -40,10 +40,6 @@ public class EraserTool extends DrawTool {
 		return lasso;
 	}
 
-	public void setLasso(boolean lasso) {
-		this.lasso = lasso;
-	}
-
 	public EraserTool(Activity context, ToolType toolType) {
 		super(context, toolType);
 
