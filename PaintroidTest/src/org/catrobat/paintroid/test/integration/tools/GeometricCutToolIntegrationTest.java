@@ -42,13 +42,13 @@ import android.graphics.Bitmap.Config;
 import android.graphics.Color;
 import android.graphics.PointF;
 
-public class CutToolIntegrationTest extends BaseIntegrationTestClass {
+public class GeometricCutToolIntegrationTest extends BaseIntegrationTestClass {
 
 	private static final int Y_CLICK_OFFSET = 25;
 	private static final float SCALE_25 = 0.25f;
 	private static final float STAMP_RESIZE_FACTOR = 1.5f;
 
-	public CutToolIntegrationTest() throws Exception {
+	public GeometricCutToolIntegrationTest() throws Exception {
 		super();
 	}
 
@@ -97,11 +97,20 @@ public class CutToolIntegrationTest extends BaseIntegrationTestClass {
 	}
 
 	@Test
-	public void testIconsAfterCutWithBox() {
+	public void testIconsAfterCutWithShape() {
 		PointF surfaceCenterPoint = getScreenPointFromSurfaceCoordinates(getSurfaceCenterX(), getSurfaceCenterY());
 		selectTool(ToolType.CUT);
 		GeometricCutTool gCutTool = (GeometricCutTool) PaintroidApplication.currentTool;
 		mSolo.clickOnView(mMenuBottomParameter1);
+		mSolo.clickOnScreen(surfaceCenterPoint.x, surfaceCenterPoint.y);
+		mSolo.waitForDialogToClose(TIMEOUT);
+
+		assertEquals("Wrong icon for parameter button 1", R.drawable.icon_menu_rectangle,
+				gCutTool.getAttributeButtonResource(ToolButtonIDs.BUTTON_ID_PARAMETER_BOTTOM_1));
+		assertEquals("Wrong icon for parameter button 2", R.drawable.icon_menu_ellipse,
+				gCutTool.getAttributeButtonResource(ToolButtonIDs.BUTTON_ID_PARAMETER_BOTTOM_2));
+
+		mSolo.clickOnView(mMenuBottomParameter2);
 		mSolo.clickOnScreen(surfaceCenterPoint.x, surfaceCenterPoint.y);
 		mSolo.waitForDialogToClose(TIMEOUT);
 
@@ -151,6 +160,53 @@ public class CutToolIntegrationTest extends BaseIntegrationTestClass {
 				.getCanvasPointFromSurfacePoint(canvasPoint));
 
 		assertEquals("Second Pixel not Transparent after using Cut", Color.TRANSPARENT, pixelToControl);
+
+	}
+
+	@Test
+	public void testCutPixelWithEllipse() throws SecurityException, IllegalArgumentException, NoSuchFieldException,
+			IllegalAccessException {
+		GeometricCutTool tool = new GeometricCutTool(getActivity(), ToolType.CUT);
+		float offsetWidth = (Float) PrivateAccess.getMemberValue(BaseToolWithRectangleShape.class, tool, "mBoxWidth");
+		float offsetHeight = (Float) PrivateAccess.getMemberValue(BaseToolWithRectangleShape.class, tool, "mBoxHeight");
+
+		PointF surfaceCenterPoint = getScreenPointFromSurfaceCoordinates(getSurfaceCenterX(), getSurfaceCenterY());
+
+		mSolo.clickOnScreen(surfaceCenterPoint.x, surfaceCenterPoint.y - Y_CLICK_OFFSET);
+		assertTrue("Cutting timed out", hasProgressDialogFinished(LONG_WAIT_TRIES));
+
+		mSolo.clickOnScreen(surfaceCenterPoint.x - (int) offsetWidth / 4, surfaceCenterPoint.y - Y_CLICK_OFFSET
+				- (int) offsetHeight / 4);
+		assertTrue("Cutting timed out", hasProgressDialogFinished(LONG_WAIT_TRIES));
+
+		selectTool(ToolType.CUT);
+
+		mSolo.waitForDialogToClose(TIMEOUT);
+		mSolo.clickOnView(mMenuBottomParameter2);
+		mSolo.waitForDialogToClose(TIMEOUT);
+
+		GeometricCutTool gCutTool = (GeometricCutTool) PaintroidApplication.currentTool;
+		PointF toolPosition = new PointF(surfaceCenterPoint.x, surfaceCenterPoint.y - Y_CLICK_OFFSET);
+		PrivateAccess.setMemberValue(BaseToolWithShape.class, gCutTool, "mToolPosition", toolPosition);
+
+		mSolo.clickOnScreen(surfaceCenterPoint.x, surfaceCenterPoint.y - Y_CLICK_OFFSET);
+		assertTrue("Cutting timed out", hasProgressDialogFinished(LONG_WAIT_TRIES));
+
+		PointF pixelCoordinateToControlColor = new PointF(surfaceCenterPoint.x, surfaceCenterPoint.y - Y_CLICK_OFFSET);
+		PointF pixelCoordinateToControlColor2 = new PointF(surfaceCenterPoint.x - (int) offsetWidth / 4,
+				surfaceCenterPoint.y - Y_CLICK_OFFSET - (int) offsetHeight / 4);
+
+		PointF canvasPoint = Utils.convertFromScreenToSurface(pixelCoordinateToControlColor);
+		PointF canvasPoint2 = Utils.convertFromScreenToSurface(pixelCoordinateToControlColor2);
+
+		int pixelToControl = PaintroidApplication.drawingSurface.getPixel(PaintroidApplication.perspective
+				.getCanvasPointFromSurfacePoint(canvasPoint));
+		int pixelToControl2 = PaintroidApplication.drawingSurface.getPixel(PaintroidApplication.perspective
+				.getCanvasPointFromSurfacePoint(canvasPoint2));
+
+		assertEquals("First Pixel not Transparent after using Cut", Color.TRANSPARENT, pixelToControl);
+		assertEquals("Second Pixel not Black after using Cut", Color.BLACK, pixelToControl2);
+
 	}
 
 	@Test
