@@ -191,7 +191,7 @@ public class TopBar extends Observable implements OnTouchListener {
 	private void onUndoTouch(MotionEvent event) {
 		if (event.getAction() == MotionEvent.ACTION_DOWN) {
 			if (!mUndoDisabled) {
-				mUndoButton.setBackgroundResource(R.color.abs__holo_blue_light);
+				mUndoButton.setBackgroundResource(R.color.holo_blue_bright);
 			}
 			PaintroidApplication.commandManager.undo();
 		} else if (event.getAction() == MotionEvent.ACTION_UP) {
@@ -202,7 +202,7 @@ public class TopBar extends Observable implements OnTouchListener {
 	private void onRedoTouch(MotionEvent event) {
 		if (event.getAction() == MotionEvent.ACTION_DOWN) {
 			if (!mRedoDisabled) {
-				mRedoButton.setBackgroundResource(R.color.abs__holo_blue_light);
+				mRedoButton.setBackgroundResource(R.color.holo_blue_bright);
 			}
 			PaintroidApplication.commandManager.redo();
 		} else if (event.getAction() == MotionEvent.ACTION_UP) {
