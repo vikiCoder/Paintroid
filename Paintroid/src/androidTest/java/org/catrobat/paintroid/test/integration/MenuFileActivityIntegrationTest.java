@@ -118,7 +118,10 @@ public class MenuFileActivityIntegrationTest extends BaseIntegrationTestClass {
 		mSolo.clickOnScreen(screenPoint.x, screenPoint.y);
         mSolo.sleep(SHORT_SLEEP);
 
-		mSolo.clickOnMenuItem(mSolo.getString(R.string.menu_new_image));
+		//mSolo.clickOnMenuItem(mSolo.getString(R.string.menu_new_image));
+        mSolo.sendKey(mSolo.MENU);
+        mSolo.clickOnText(mSolo.getString(R.string.menu_new_image));
+
 		mSolo.sleep(SHORT_TIMEOUT);
 		mSolo.clickOnMenuItem(mSolo.getString(R.string.menu_new_image_from_camera));
 
@@ -180,10 +183,14 @@ public class MenuFileActivityIntegrationTest extends BaseIntegrationTestClass {
 
 	public void testSavedStateChangeAfterSave() {
 		mSolo.clickOnScreen(screenPoint.x, screenPoint.y);
-		mSolo.sleep(SHORT_SLEEP);
+		mSolo.sleep(SHORT_TIMEOUT);
 
 		assertFalse(PaintroidApplication.isSaved);
-		mSolo.clickOnMenuItem(mSolo.getString(R.string.menu_save_image));
+		//mSolo.clickOnMenuItem(mSolo.getString(R.string.menu_save_image));
+        mSolo.sendKey(mSolo.MENU);
+        mSolo.sleep(SHORT_SLEEP);
+        mSolo.clickOnText(mSolo.getString(R.string.menu_save_image));
+
 
 		assertTrue("ProgressDialog not showing", mSolo.waitForDialogToOpen(SHORT_TIMEOUT));
 		mSolo.waitForDialogToClose();
@@ -195,7 +202,7 @@ public class MenuFileActivityIntegrationTest extends BaseIntegrationTestClass {
 
 	public void testSaveImage() {
 		mSolo.clickOnScreen(screenPoint.x, screenPoint.y);
-		mSolo.sleep(SHORT_SLEEP);
+		mSolo.sleep(SHORT_TIMEOUT);
 
 		mSolo.clickOnMenuItem(mSolo.getString(R.string.menu_save_image));
 		mSolo.waitForDialogToOpen(SHORT_TIMEOUT);
@@ -212,10 +219,13 @@ public class MenuFileActivityIntegrationTest extends BaseIntegrationTestClass {
 
 		assertNull(PaintroidApplication.savedPictureUri);
 		mSolo.clickOnScreen(screenPoint.x, screenPoint.y);
-		mSolo.sleep(SHORT_SLEEP);
+		mSolo.sleep(SHORT_TIMEOUT);
 
-		mSolo.clickOnMenuItem(mSolo.getString(R.string.menu_save_image));
-		mSolo.waitForDialogToOpen(SHORT_TIMEOUT);
+		//mSolo.clickOnMenuItem(mSolo.getString(R.string.menu_save_image));
+        mSolo.sendKey(mSolo.MENU);
+        mSolo.clickOnText(mSolo.getString(R.string.menu_save_image));
+
+        mSolo.waitForDialogToOpen(SHORT_TIMEOUT);
 		mSolo.waitForDialogToClose();
 		assertNotNull(PaintroidApplication.savedPictureUri);
 		filenames.add(PaintroidApplication.savedPictureUri.toString());
@@ -224,9 +234,11 @@ public class MenuFileActivityIntegrationTest extends BaseIntegrationTestClass {
 		mSolo.clickOnScreen(screenPoint.x, screenPoint.y + 100);
         mSolo.sleep(SHORT_SLEEP);
 
-        mSolo.clickOnMenuItem(mSolo.getString(R.string.menu_save_copy));
+        //mSolo.clickOnMenuItem(mSolo.getString(R.string.menu_save_copy));
+        mSolo.sendKey(mSolo.MENU);
+        mSolo.clickOnText(mSolo.getString(R.string.menu_save_copy));
 
-		mSolo.waitForDialogToOpen(SHORT_TIMEOUT);
+        mSolo.waitForDialogToOpen(SHORT_TIMEOUT);
 		mSolo.waitForDialogToClose();
 
         File newFile = new File(PaintroidApplication.savedPictureUri.toString());
@@ -250,9 +262,12 @@ public class MenuFileActivityIntegrationTest extends BaseIntegrationTestClass {
         PointF screenPoint = new PointF(mScreenWidth / 2, mScreenHeight / 2);
 
         mSolo.clickOnScreen(screenPoint.x, screenPoint.y);
-        mSolo.sleep(SHORT_SLEEP);
+        mSolo.sleep(SHORT_TIMEOUT);
 
-        mSolo.clickOnMenuItem(mSolo.getString(R.string.menu_save_image));
+        //mSolo.clickOnMenuItem(mSolo.getString(R.string.menu_save_image));
+        mSolo.sendKey(mSolo.MENU);
+        mSolo.clickOnText(mSolo.getString(R.string.menu_save_image));
+
         mSolo.waitForDialogToOpen(SHORT_TIMEOUT);
         mSolo.waitForDialogToClose();
 
