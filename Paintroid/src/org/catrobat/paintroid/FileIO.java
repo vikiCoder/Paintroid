@@ -189,6 +189,8 @@ public abstract class FileIO {
 	}
 
 	public static Bitmap getBitmapFromUri(Uri bitmapUri) {
+        //Check for Rotation
+
 		BitmapFactory.Options options = new BitmapFactory.Options();
 
 		if (PaintroidApplication.openedFromCatroid) {
