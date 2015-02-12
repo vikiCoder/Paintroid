@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+ *  Paintroid: An image manipulation application for Android.
+ *  Copyright (C) 2010-2013 The Catrobat Team
+ *  (<http://developer.catrobat.org/credits>)
+ *
+ *  This program is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU Affero General Public License as
+ *  published by the Free Software Foundation, either version 3 of the
+ *  License, or (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ *  GNU Affero General Public License for more details.
+ *
+ *  You should have received a copy of the GNU Affero General Public License
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ -->
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/layout_rotation"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
+
+    <TextView
+        android:id="@+id/rotation_angle_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="4dp"
+        android:layout_marginLeft="24dip"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="28dp"
+        android:text="@string/rotation_angle_text"
+        android:textAllCaps="true"
+        android:textColor="@color/dialog_subtitle"
+        android:textStyle="bold" />
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="2dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:background="@color/dialog_subtitle_border" />
+
+    <RadioGroup
+        android:id="@+id/rotation_angle_selection"
+        android:layout_width="wrap_content"
+        android:layout_height="fill_parent"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="15dp"
+        android:orientation="horizontal" >
+
+        <RadioButton
+            android:id="@+id/rotation_rbtn_30"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:layout_marginRight="10dp"
+            android:text="@string/rotation_degree_30_text"
+            android:textColor="@color/dialog_edittext_color"
+            android:textStyle="bold"
+            android:textSize="@dimen/abs__action_bar_title_text_size" />
+
+        <RadioButton
+            android:id="@+id/rotation_rbtn_45"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:layout_marginRight="10dp"
+            android:text="@string/rotation_degree_45_text"
+            android:textColor="@color/dialog_edittext_color"
+            android:textStyle="bold"
+            android:textSize="@dimen/abs__action_bar_title_text_size" />
+
+        <RadioButton
+            android:id="@+id/rotation_rbtn_90"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:layout_marginRight="10dp"
+            android:text="@string/rotation_degree_90_text"
+            android:textColor="@color/dialog_edittext_color"
+            android:textStyle="bold"
+            android:textSize="@dimen/abs__action_bar_title_text_size" />
+    </RadioGroup>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:weightSum="5"
+        android:orientation="horizontal" >
+
+        <SeekBar
+            android:id="@+id/rotation_angle_seek_bar"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="4"
+            android:layout_gravity="center"
+            android:layout_marginBottom="5dip"
+            android:layout_marginLeft="24dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="16dp"
+            android:max="360"
+            android:minHeight="30dip" />
+
+
+        <TextView
+            android:id="@+id/rotation_angle_seek_bar_text"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="4"
+            android:layout_gravity="center"
+            android:layout_marginTop="16dp"
+            android:textColor="@color/holo_blue_bright"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+
+    <EditText
+        android:id="@+id/rotation_input_angle"
+        android:inputType="number"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginLeft="4dp"
+        android:layout_marginRight="4dp"
+        android:layout_marginBottom="4dp"
+        android:textColor="@color/dialog_edittext_color"/>
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="2dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:background="@color/dialog_subtitle_border" />
+
+    <CheckBox android:id="@+id/rotation_snap_checkbox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/rotation_snap_checkbox_text"
+        android:textColor="@color/dialog_edittext_color" />
+
+</LinearLayout>

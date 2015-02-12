@@ -35,7 +35,7 @@
         android:xlargeScreens="false" />
 
     <uses-sdk
-        android:minSdkVersion="10"
+        android:minSdkVersion="11"
         android:targetSdkVersion="19" >
     </uses-sdk>
 

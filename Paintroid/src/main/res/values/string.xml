@@ -150,6 +150,12 @@
     <string name="dialog_shape_text">Shape</string>
     <string name="dialog_loading_image_failed_title">Error on loading image</string>
     <string name="dialog_loading_image_failed_text">Not a valid image file</string>
+    <string name="dialog_rotation_settings_text">Rotation settings</string>
+    <string name="rotation_snap_checkbox_text">Activate for snapping</string>
+    <string name="rotation_angle_text">Rotation angle in degrees</string>
+    <string name="rotation_degree_30_text">30</string>
+    <string name="rotation_degree_45_text">45</string>
+    <string name="rotation_degree_90_text">90</string>
     
 
 </resources>

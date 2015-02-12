@@ -16,7 +16,7 @@ android {
 
     defaultConfig {
 		applicationId "org.catrobat.paintroid"
-        minSdkVersion 10
+        minSdkVersion 11
         targetSdkVersion 19
         testApplicationId "org.catrobat.paintroid.test"
         testInstrumentationRunner "pl.polidea.instrumentation.PolideaInstrumentationTestRunner"
