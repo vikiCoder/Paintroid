@@ -627,9 +627,11 @@ public abstract class BaseToolWithRectangleShape extends BaseToolWithShape {
         mRotationAngleRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
-                mSnapAngle = Integer.parseInt(((RadioButton)view.findViewById(checkedId)).getText().toString());
-                mSelectedAngleRadioButton = (RadioButton)view.findViewById(checkedId);
-                // update seekbar
+                if (mRotationAngleRadioGroup.getCheckedRadioButtonId() != -1) {
+                    mSelectedAngleRadioButton = (RadioButton) view.findViewById(checkedId);
+                    mSnapAngle = Integer.parseInt(mSelectedAngleRadioButton.getText().toString());
+                    mRotationAngleSeekBar.setProgress(mSnapAngle);
+                }
             }
         });
 
@@ -637,7 +639,11 @@ public abstract class BaseToolWithRectangleShape extends BaseToolWithShape {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 mRotationAngleSeekBarText.setText(String.valueOf(progress));
-                mSnapAngle = progress;
+                if (fromUser) {
+                    mSnapAngle = progress;
+                    mSelectedAngleRadioButton = null;
+                    mRotationAngleRadioGroup.clearCheck();
+                }
             }
 
             @Override
@@ -664,7 +670,6 @@ public abstract class BaseToolWithRectangleShape extends BaseToolWithShape {
                         }
 
                         button.setText(String.valueOf(mSnapAngle));
-                        mSnappingIsActivated = ((CheckBox) view.findViewById(R.id.rotation_snap_checkbox)).isChecked();
                     }
                 });
             /*.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
