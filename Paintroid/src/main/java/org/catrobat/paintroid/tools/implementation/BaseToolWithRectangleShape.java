@@ -46,6 +46,7 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
@@ -621,7 +622,7 @@ public abstract class BaseToolWithRectangleShape extends BaseToolWithShape {
         if (mSelectedAngleRadioButton != null) {
             mRotationAngleRadioGroup.check(mSelectedAngleRadioButton.getId());
         }
-        mRotationSnappingCheckBox.setActivated(mSnappingIsActivated);
+        mRotationSnappingCheckBox.setChecked(mSnappingIsActivated);
 
 
         mRotationAngleRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
@@ -652,6 +653,13 @@ public abstract class BaseToolWithRectangleShape extends BaseToolWithShape {
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
+            }
+        });
+
+        mRotationSnappingCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                mSnappingIsActivated = isChecked;
             }
         });
 
