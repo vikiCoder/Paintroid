@@ -43,6 +43,7 @@ public class BaseToolWithRectangleShapeToolTest extends BaseToolTest {
     private static final String TOOL_MEMBER_ROTATION = "mBoxRotation";
     private static final String TOOL_MEMBER_REAL_ROTATION = "mRealBoxRotation";   // ### new for rotate with defined angle
     private static final String TOOL_MEMBER_SNAP_ANGLE = "mSnapAngle";   // ### new for rotate with defined angle
+    private static final String TOOL_MEMBER_SNAPPING_ACTIVATED = "mSnappingIsActivated";   // ### new for rotate with defined angle
     private static final String TOOL_MEMBER_ROTATION_ENABLED = "mRotationEnabled";
     private static final String TOOL_MEMBER_ROTATION_SYMBOL_DISTANCE = "mRotationSymbolDistance";
     private static final int RESIZE_MOVE_DISTANCE = 50;
@@ -509,6 +510,7 @@ public class BaseToolWithRectangleShapeToolTest extends BaseToolTest {
     public void testRotateRectangleRightWithSnap() throws NoSuchFieldException, IllegalAccessException {
 
         PrivateAccess.setMemberValue(BaseToolWithRectangleShape.class, mToolToTest, TOOL_MEMBER_ROTATION_ENABLED, true);
+        PrivateAccess.setMemberValue(BaseToolWithRectangleShape.class, mToolToTest, TOOL_MEMBER_SNAPPING_ACTIVATED, true);
         mToolToTest.handleDown(mToolPosition);
         mToolToTest.handleUp(mToolPosition);
 
@@ -537,6 +539,7 @@ public class BaseToolWithRectangleShapeToolTest extends BaseToolTest {
     public void testRotateRectangleLeftWithSnap() throws NoSuchFieldException, IllegalAccessException {
 
         PrivateAccess.setMemberValue(BaseToolWithRectangleShape.class, mToolToTest, TOOL_MEMBER_ROTATION_ENABLED, true);
+        PrivateAccess.setMemberValue(BaseToolWithRectangleShape.class, mToolToTest, TOOL_MEMBER_SNAPPING_ACTIVATED, true);
         mToolToTest.handleDown(mToolPosition);
         mToolToTest.handleUp(mToolPosition);
 
