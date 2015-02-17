@@ -191,6 +191,21 @@ public abstract class BaseToolWithRectangleShape extends BaseToolWithShape {
 
         // ### new for rotate with defined angle
         createRotationButtons(context);
+        /*
+        final Activity act = (Activity) mContext;
+        LayoutInflater inflater = act.getLayoutInflater();
+        final View view = inflater.inflate(R.layout.rotation_buttons, null);
+
+        act.runOnUiThread(new Runnable() { // necessary for junit tests, otherwise the wrong thread is used
+            @Override
+            public void run() {
+                Activity act = (Activity) mContext;
+                RelativeLayout layout = (RelativeLayout) act.findViewById(R.id.main_layout);
+                layout.addView(view);
+
+            }
+        });
+*/
     }
 
     public BaseToolWithRectangleShape(Context context, ToolType toolType,
