@@ -195,7 +195,9 @@ public abstract class BaseToolWithRectangleShape extends BaseToolWithShape {
 
         // ### new for rotate with defined angle
         //createRotationButtons(context);
-        addRotationButtonsLayout();
+        if (getToolType() != ToolType.CROP) {
+			addRotationButtonsLayout();
+		}
 
     }
 

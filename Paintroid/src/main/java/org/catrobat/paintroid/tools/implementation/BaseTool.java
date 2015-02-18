@@ -35,6 +35,7 @@ import org.catrobat.paintroid.tools.Tool;
 import org.catrobat.paintroid.tools.ToolType;
 import org.catrobat.paintroid.ui.TopBar.ToolButtonIDs;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -48,7 +49,9 @@ import android.graphics.PointF;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Shader;
+import android.view.View;
 import android.view.WindowManager;
+import android.widget.RelativeLayout;
 
 public abstract class BaseTool extends Observable implements Tool, Observer {
 	// TODO maybe move to PaintroidApplication.
@@ -122,6 +125,15 @@ public abstract class BaseTool extends Observable implements Tool, Observer {
 
 		mMovedDistance = new PointF(0f, 0f);
 		mPreviousEventCoordinate = new PointF(0f, 0f);
+
+		// ### new for rotate with defined angle
+		Activity act = (Activity) mContext;
+		if (act.findViewById(R.id.layout_rotation_buttons) != null) {
+			RelativeLayout layout = (RelativeLayout) act.findViewById(R.id.main_layout);
+			View view = act.findViewById(R.id.layout_rotation_buttons);
+			layout.removeView(view);
+		}
+
 
 	}
 
