@@ -19,6 +19,7 @@
 
 package org.catrobat.paintroid.tools.implementation;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -37,6 +38,7 @@ import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.RectF;
 import android.graphics.Region.Op;
+import android.os.Build;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Display;
@@ -48,6 +50,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -59,6 +62,7 @@ import com.actionbarsherlock.app.ActionBar;
 
 import org.catrobat.paintroid.PaintroidApplication;
 import org.catrobat.paintroid.R;
+import org.catrobat.paintroid.dialog.BrushPickerDialog;
 import org.catrobat.paintroid.dialog.CustomAlertDialogBuilder;
 import org.catrobat.paintroid.tools.ToolType;
 import org.w3c.dom.Text;
@@ -190,22 +194,9 @@ public abstract class BaseToolWithRectangleShape extends BaseToolWithShape {
         initScaleDependedValues();
 
         // ### new for rotate with defined angle
-        createRotationButtons(context);
-        /*
-        final Activity act = (Activity) mContext;
-        LayoutInflater inflater = act.getLayoutInflater();
-        final View view = inflater.inflate(R.layout.rotation_buttons, null);
+        //createRotationButtons(context);
+        addRotationButtonsLayout();
 
-        act.runOnUiThread(new Runnable() { // necessary for junit tests, otherwise the wrong thread is used
-            @Override
-            public void run() {
-                Activity act = (Activity) mContext;
-                RelativeLayout layout = (RelativeLayout) act.findViewById(R.id.main_layout);
-                layout.addView(view);
-
-            }
-        });
-*/
     }
 
     public BaseToolWithRectangleShape(Context context, ToolType toolType,
@@ -228,6 +219,49 @@ public abstract class BaseToolWithRectangleShape extends BaseToolWithShape {
         mBoxResizeMargin = getInverselyProportionalSizeForZoom(DEFAULT_BOX_RESIZE_MARGIN);
         mRotationSymbolDistance = getInverselyProportionalSizeForZoom(DEFAULT_ROTATION_SYMBOL_DISTANCE) * 2;
         mRotationSymbolWidth = getInverselyProportionalSizeForZoom(DEFAULT_ROTATION_SYMBOL_WIDTH);
+    }
+
+
+    // ### new for rotate with defined angle
+    private void addRotationButtonsLayout() {
+        final Activity act = (Activity) mContext;
+        LayoutInflater inflater = act.getLayoutInflater();
+        final View view = inflater.inflate(R.layout.rotation_buttons, null);
+        //final ImageButton rotationBtnLeft = (ImageButton) view.findViewById(R.id.rotation_btn_left);
+        //final ImageButton rotationBtnRight = (ImageButton) view.findViewById(R.id.rotation_btn_right);
+
+
+        view.findViewById(R.id.rotation_btn_angle).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                rotationInputDialog();
+            }
+        });
+
+        view.findViewById(R.id.rotation_btn_left).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                rotateRectangleWithButton(-mSnapAngle);
+            }
+        });
+
+        view.findViewById(R.id.rotation_btn_right).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                rotateRectangleWithButton(mSnapAngle);
+            }
+        });
+
+        act.runOnUiThread(new Runnable() { // necessary for junit tests, otherwise the wrong thread is used
+            @Override
+            public void run() {
+                Activity act = (Activity) mContext;
+                RelativeLayout layout = (RelativeLayout) act.findViewById(R.id.main_layout);
+                layout.addView(view);
+
+            }
+        });
+
     }
 
     // ### new for rotate with defined angle
@@ -614,6 +648,94 @@ public abstract class BaseToolWithRectangleShape extends BaseToolWithShape {
         }
         mToolPosition.x = newXPos;
         mToolPosition.y = newYPos;
+    }
+
+    // ### new for rotate with defined angle
+    private void rotationInputDialog() {
+
+        AlertDialog.Builder builder = new CustomAlertDialogBuilder(mContext);
+        builder.setTitle(R.string.dialog_rotation_settings_text);
+
+        final Activity act = (Activity) mContext;
+        LayoutInflater inflater = act.getLayoutInflater();
+        final View view = inflater.inflate(R.layout.dialog_rotation, null);
+
+        mRotationAngleSeekBar = (SeekBar) view.findViewById(R.id.rotation_angle_seek_bar);
+        mRotationAngleSeekBarText = (TextView) view.findViewById(R.id.rotation_angle_seek_bar_text);
+        mRotationAngleRadioGroup = (RadioGroup) view.findViewById(R.id.rotation_angle_selection);
+        mRotationSnappingCheckBox = (CheckBox) view.findViewById(R.id.rotation_snap_checkbox);
+
+        // set dialog values
+        mRotationAngleSeekBarText.setText((String.valueOf(mSnapAngle)));
+        mRotationAngleSeekBar.setProgress(mSnapAngle);
+        if (mSelectedAngleRadioButton != null) {
+            mRotationAngleRadioGroup.check(mSelectedAngleRadioButton.getId());
+        }
+        mRotationSnappingCheckBox.setChecked(mSnappingIsActivated);
+
+
+        mRotationAngleRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                if (mRotationAngleRadioGroup.getCheckedRadioButtonId() != -1) {
+                    mSelectedAngleRadioButton = (RadioButton) view.findViewById(checkedId);
+                    mSnapAngle = Integer.parseInt(mSelectedAngleRadioButton.getText().toString());
+                    mRotationAngleSeekBar.setProgress(mSnapAngle);
+                }
+            }
+        });
+
+        mRotationAngleSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                mRotationAngleSeekBarText.setText(String.valueOf(progress));
+                if (fromUser) {
+                    mSnapAngle = progress;
+                    mSelectedAngleRadioButton = null;
+                    mRotationAngleRadioGroup.clearCheck();
+                }
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+            }
+        });
+
+        mRotationSnappingCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                mSnappingIsActivated = isChecked;
+            }
+        });
+
+
+        builder.setView(view)
+                .setNeutralButton(R.string.done, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+
+                        // written Input
+                        EditText inputField = (EditText) view.findViewById(R.id.rotation_input_angle);
+                        String value = inputField.getText().toString();
+                        try {
+                            mSnapAngle = Integer.parseInt(value);
+                        } catch (NumberFormatException e) {
+                            // TODO: not necessary if scroll selection is used
+                        }
+
+                        //button.setText(String.valueOf(mSnapAngle));
+                    }
+                });
+            /*.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                // Canceled.
+            }
+        });
+        */
+        builder.show();
     }
 
     // ### new for rotate with defined angle
