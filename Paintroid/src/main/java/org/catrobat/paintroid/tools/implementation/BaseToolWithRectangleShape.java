@@ -719,24 +719,10 @@ public abstract class BaseToolWithRectangleShape extends BaseToolWithShape {
                 .setNeutralButton(R.string.done, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
 
-                        // written Input
-                        EditText inputField = (EditText) view.findViewById(R.id.rotation_input_angle);
-                        String value = inputField.getText().toString();
-                        try {
-                            mSnapAngle = Integer.parseInt(value);
-                        } catch (NumberFormatException e) {
-                            // TODO: not necessary if scroll selection is used
-                        }
-
                         //button.setText(String.valueOf(mSnapAngle));
                     }
                 });
-            /*.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int whichButton) {
-                // Canceled.
-            }
-        });
-        */
+
         builder.show();
     }
 
@@ -808,6 +794,7 @@ public abstract class BaseToolWithRectangleShape extends BaseToolWithShape {
                     public void onClick(DialogInterface dialog, int whichButton) {
 
                         // written Input
+						/*
                         EditText inputField = (EditText) view.findViewById(R.id.rotation_input_angle);
                         String value = inputField.getText().toString();
                         try {
@@ -815,7 +802,7 @@ public abstract class BaseToolWithRectangleShape extends BaseToolWithShape {
                         } catch (NumberFormatException e) {
                             // TODO: not necessary if scroll selection is used
                         }
-
+						*/
                         button.setText(String.valueOf(mSnapAngle));
                     }
                 });

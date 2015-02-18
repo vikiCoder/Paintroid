@@ -25,8 +25,11 @@ import android.graphics.Bitmap.Config;
 import android.graphics.Canvas;
 import android.graphics.PointF;
 import android.util.Log;
+import android.widget.Button;
+import android.widget.ImageButton;
 
 import org.catrobat.paintroid.PaintroidApplication;
+import org.catrobat.paintroid.R;
 import org.catrobat.paintroid.test.utils.PrivateAccess;
 import org.catrobat.paintroid.tools.ToolType;
 import org.catrobat.paintroid.tools.implementation.BaseToolWithRectangleShape;
