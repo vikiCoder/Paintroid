@@ -31,13 +31,23 @@ import org.junit.Before;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Point;
+import android.util.Log;
 import android.view.View;
+import android.widget.CheckBox;
+import android.widget.TextView;
 
 public class BaseToolWithRectangleShapeToolTest extends BaseIntegrationTestClass {
 
 	protected View mButtonOpenDialog;
 	protected View mButtonRotateLeft;
 	protected View mButtonRotateRights;
+	protected View mRadioButton30;
+	protected View mRadioButton45;
+	protected View mRadioButton90;
+	protected View mAngleSelection;
+	protected View mAngleSeekBar;
+	protected TextView mAngleSeekBarText;
+	protected View mSnapCheckBox;
 
 	public BaseToolWithRectangleShapeToolTest() throws Exception {
 		super();
@@ -47,11 +57,6 @@ public class BaseToolWithRectangleShapeToolTest extends BaseIntegrationTestClass
 	@Before
 	protected void setUp() {
 		super.setUp();
-
-		mButtonOpenDialog = getActivity().findViewById(R.id.rotation_btn_angle);
-		mButtonOpenDialog = getActivity().findViewById(R.id.rotation_btn_left);
-		mButtonOpenDialog = getActivity().findViewById(R.id.rotation_btn_right);
-
 	}
 
 	@Override
@@ -61,7 +66,19 @@ public class BaseToolWithRectangleShapeToolTest extends BaseIntegrationTestClass
 	}
 
 	public void testRotationDialog() {
+		selectTool(ToolType.RECT);
 
+		mSolo.clickOnView(mButtonOpenDialog);
+		assertTrue("Rotation dialog not shown", mSolo.waitForDialogToOpen());
+
+		/*
+		assertFalse("no radio button should be selected", mAngleSelection.isPressed());
+		assertEquals("selected angle should be 0", "0", mAngleSeekBarText.getText().toString());
+		assertFalse("snapping checkbox should not be activated", mSnapCheckBox.isPressed());
+
+		mSolo.clickOnView(mRadioButton30);
+		//assertTrue("Rotation dialog title not found", (String) mSolo.getText(R.string.dialog_rotation_settings_text).getText());
+		*/
 	}
 
 	public void testRotateWithAngleBySelection() {
@@ -80,4 +97,35 @@ public class BaseToolWithRectangleShapeToolTest extends BaseIntegrationTestClass
 
 	}
 
+
+
+	@Override
+	protected void selectTool(ToolType toolType) {
+		int nameRessourceID = toolType.getNameResource();
+		if (nameRessourceID == 0)
+			return;
+		String nameRessourceAsText = mSolo.getString(nameRessourceID);
+		assertNotNull("Name Ressource is null", nameRessourceAsText);
+
+		mSolo.clickOnView(mMenuBottomTool);
+		Log.i(PaintroidApplication.TAG, "clicked on bottom button tool");
+		assertTrue("Tools dialog not visible",
+				mSolo.waitForText(mSolo.getString(R.string.dialog_tools_title), 1, TIMEOUT, true));
+		mSolo.clickOnText(nameRessourceAsText);
+		Log.i(PaintroidApplication.TAG, "clicked on text for tool " + nameRessourceAsText);
+		waitForToolToSwitch(toolType);
+
+		mButtonOpenDialog = getActivity().findViewById(R.id.rotation_btn_angle);
+		mButtonRotateLeft = getActivity().findViewById(R.id.rotation_btn_left);
+		mButtonRotateRights = getActivity().findViewById(R.id.rotation_btn_right);
+
+		mAngleSelection = getActivity().findViewById(R.id.rotation_angle_selection);
+		mRadioButton30 = getActivity().findViewById(R.id.rotation_rbtn_30);
+		mRadioButton45 = getActivity().findViewById(R.id.rotation_rbtn_45);
+		mRadioButton90 = getActivity().findViewById(R.id.rotation_rbtn_90);
+		mAngleSeekBar = getActivity().findViewById(R.id.rotation_angle_seek_bar);
+		mAngleSeekBarText = (TextView) getActivity().findViewById(R.id.rotation_angle_seek_bar_text);
+
+		mSnapCheckBox = getActivity().findViewById(R.id.rotation_snap_checkbox);
+	}
 }

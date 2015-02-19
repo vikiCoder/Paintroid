@@ -202,7 +202,7 @@ public class BaseIntegrationTestClass extends ActivityInstrumentationTestCase2<M
 		// }
 	}
 
-	private void waitForToolToSwitch(ToolType toolTypeToWaitFor) {
+	protected void waitForToolToSwitch(ToolType toolTypeToWaitFor) {
 
 		if (!mSolo.waitForActivity(MainActivity.class.getSimpleName())) {
 			mSolo.sleep(2000);
