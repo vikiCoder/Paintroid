@@ -28,10 +28,12 @@ import org.catrobat.paintroid.ui.DrawingSurface;
 import org.junit.After;
 import org.junit.Before;
 
+import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Point;
 import android.view.View;
+import android.widget.RelativeLayout;
 
 public class BaseToolWithRectangleShapeToolTest extends BaseIntegrationTestClass {
 
@@ -49,8 +51,8 @@ public class BaseToolWithRectangleShapeToolTest extends BaseIntegrationTestClass
 		super.setUp();
 
 		mButtonOpenDialog = getActivity().findViewById(R.id.rotation_btn_angle);
-		mButtonOpenDialog = getActivity().findViewById(R.id.rotation_btn_left);
-		mButtonOpenDialog = getActivity().findViewById(R.id.rotation_btn_right);
+		mButtonRotateLeft = getActivity().findViewById(R.id.rotation_btn_left);
+		mButtonRotateRights = getActivity().findViewById(R.id.rotation_btn_right);
 
 	}
 
@@ -73,10 +75,53 @@ public class BaseToolWithRectangleShapeToolTest extends BaseIntegrationTestClass
 	}
 
 	public void testRotateBySnapping() {
+		selectTool(ToolType.RECT);
+		assertFalse("Rotate Angle Button should be shown", (getActivity().findViewById(R.id.rotation_btn_angle) == null));
+		assertFalse("Rotate Left Button should be shown", (getActivity().findViewById(R.id.rotation_btn_left) == null));
+		assertFalse("Rotate Right Button should be shown", (getActivity().findViewById(R.id.rotation_btn_right) == null));
+
+		mSolo.clickOnView(mButtonOpenDialog);
+		mSolo.waitForDialogToOpen();
+
+
 
 	}
 
 	public void testRotationButtonsAreShownWithCorrectTools() {
+		//mSolo.getView(R.id.rotation_btn_left)
+		assertTrue("Rotate Angle Button should not be visible", (getActivity().findViewById(R.id.rotation_btn_angle) == null));
+		assertTrue("Rotate Left Button should not be visible", (getActivity().findViewById(R.id.rotation_btn_left) == null));
+		assertTrue("Rotate Right Button should not be visible", (getActivity().findViewById(R.id.rotation_btn_right) == null));
+
+		selectTool(ToolType.ELLIPSE);
+		assertFalse("Rotate Angle Button should be shown", (getActivity().findViewById(R.id.rotation_btn_angle) == null));
+		assertFalse("Rotate Left Button should be shown", (getActivity().findViewById(R.id.rotation_btn_left) == null));
+		assertFalse("Rotate Right Button should be shown", (getActivity().findViewById(R.id.rotation_btn_right) == null));
+
+		selectTool(ToolType.ERASER);
+		assertTrue("Rotate Angle Button should not be visible", (getActivity().findViewById(R.id.rotation_btn_angle) == null));
+		assertTrue("Rotate Left Button should not be visible", (getActivity().findViewById(R.id.rotation_btn_left) == null));
+		assertTrue("Rotate Right Button should not be visible", (getActivity().findViewById(R.id.rotation_btn_right) == null));
+
+		selectTool(ToolType.RECT);
+		assertFalse("Rotate Angle Button should be shown", (getActivity().findViewById(R.id.rotation_btn_angle) == null));
+		assertFalse("Rotate Left Button should be shown", (getActivity().findViewById(R.id.rotation_btn_left) == null));
+		assertFalse("Rotate Right Button should be shown", (getActivity().findViewById(R.id.rotation_btn_right) == null));
+
+		selectTool(ToolType.FILL);
+		assertTrue("Rotate Angle Button should not be visible", (getActivity().findViewById(R.id.rotation_btn_angle) == null));
+		assertTrue("Rotate Left Button should not be visible", (getActivity().findViewById(R.id.rotation_btn_left) == null));
+		assertTrue("Rotate Right Button should not be visible", (getActivity().findViewById(R.id.rotation_btn_right) == null));
+
+		selectTool(ToolType.STAMP);
+		assertFalse("Rotate Angle Button should be shown", (getActivity().findViewById(R.id.rotation_btn_angle) == null));
+		assertFalse("Rotate Left Button should be shown", (getActivity().findViewById(R.id.rotation_btn_left) == null));
+		assertFalse("Rotate Right Button should be shown", (getActivity().findViewById(R.id.rotation_btn_right) == null));
+
+		selectTool(ToolType.CROP);
+		assertTrue("Rotate Angle Button should not be visible", (getActivity().findViewById(R.id.rotation_btn_angle) == null));
+		assertTrue("Rotate Left Button should not be visible", (getActivity().findViewById(R.id.rotation_btn_left) == null));
+		assertTrue("Rotate Right Button should not be visible", (getActivity().findViewById(R.id.rotation_btn_right) == null));
 
 	}
 
