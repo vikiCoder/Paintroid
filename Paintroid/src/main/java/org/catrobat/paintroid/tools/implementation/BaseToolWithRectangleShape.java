@@ -103,13 +103,14 @@ public abstract class BaseToolWithRectangleShape extends BaseToolWithShape {
     private static final int ROTATION_ARROW_ARC_RADIUS = getDensitySpecificValue(8);
     private static final int ROTATION_ARROW_HEAD_SIZE = getDensitySpecificValue(3);
     private static final int ROTATION_ARROW_OFFSET = getDensitySpecificValue(3);
+	private static final int DEFAULT_ROTATION_ANGLE = 15;
 
     protected float mBoxWidth;
     protected float mBoxHeight;
     protected float mBoxRotation; // in degree
-    protected float mRealBoxRotation; // in degree // ### new for rotate with defined angle
-    protected int mSnapAngle = 0;   // ### new for rotate with defined angle
-    protected boolean mSnappingIsActivated = false;   // ### new for rotate with defined angle
+    protected float mRealBoxRotation; // in degree 		// ### new for rotate with defined angle
+    protected int mSnapAngle = DEFAULT_ROTATION_ANGLE;   					// ### new for rotate with defined angle
+    protected boolean mSnappingIsActivated = false;   	// ### new for rotate with defined angle
     protected float mBoxResizeMargin;
     protected float mRotationSymbolDistance;
     protected float mRotationSymbolWidth;
@@ -124,11 +125,13 @@ public abstract class BaseToolWithRectangleShape extends BaseToolWithShape {
     private boolean mBackgroundShadowEnabled;
     private boolean mResizePointsVisible;
     private boolean mStatusIconEnabled;
-    private TextView mRotationAngleSeekBarText;  // ### new for rotate with defined angle
-    private SeekBar mRotationAngleSeekBar;  // ### new for rotate with defined angle
-    private RadioGroup mRotationAngleRadioGroup;  // ### new for rotate with defined angle
-    private RadioButton mSelectedAngleRadioButton = null; // ### new for rotate with defined angle
-    private CheckBox mRotationSnappingCheckBox;  // ### new for rotate with defined angle
+    private TextView mRotationAngleSeekBarText;  			// ### new for rotate with defined angle
+    private SeekBar mRotationAngleSeekBar;  				// ### new for rotate with defined angle
+    private RadioGroup mRotationAngleRadioGroup;  			// ### new for rotate with defined angle
+    private RadioButton mSelectedAngleRadioButton = null; 	// ### new for rotate with defined angle
+    private CheckBox mRotationSnappingCheckBox;  			// ### new for rotate with defined angle
+	private AlertDialog mRotationDialog;					// ### new for rotate with defined angle
+	private View mRotationDialogLayout;						// ### new for rotate with defined angle
 
 
     private boolean mIsDown = false;
@@ -145,12 +148,6 @@ public abstract class BaseToolWithRectangleShape extends BaseToolWithShape {
         TOP_LEFT, TOP_RIGHT, BOTTOM_LEFT, BOTTOM_RIGHT;
     }
 
-    // ### new for rotate with defined angle
-    /*
-    private enum RotationAngleSelection {
-        R.id.rotation_rbtn_30(30), TOP_RIGHT, BOTTOM_LEFT, BOTTOM_RIGHT;
-    }
-*/
     private static int getDensitySpecificValue(int value) {
         DisplayMetrics metrics = PaintroidApplication.applicationContext
                 .getResources().getDisplayMetrics();
@@ -232,11 +229,12 @@ public abstract class BaseToolWithRectangleShape extends BaseToolWithShape {
         //final ImageButton rotationBtnLeft = (ImageButton) view.findViewById(R.id.rotation_btn_left);
         //final ImageButton rotationBtnRight = (ImageButton) view.findViewById(R.id.rotation_btn_right);
 
+		mRotationDialog = createRotationInputDialog();
 
         view.findViewById(R.id.rotation_btn_angle).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                rotationInputDialog();
+                mRotationDialog.show();
             }
         });
 
@@ -653,7 +651,7 @@ public abstract class BaseToolWithRectangleShape extends BaseToolWithShape {
     }
 
     // ### new for rotate with defined angle
-    private void rotationInputDialog() {
+    private AlertDialog createRotationInputDialog() {
 
         AlertDialog.Builder builder = new CustomAlertDialogBuilder(mContext);
         builder.setTitle(R.string.dialog_rotation_settings_text);
@@ -662,6 +660,7 @@ public abstract class BaseToolWithRectangleShape extends BaseToolWithShape {
         LayoutInflater inflater = act.getLayoutInflater();
         final View view = inflater.inflate(R.layout.dialog_rotation, null);
 
+		mRotationDialogLayout = view.findViewById(R.id.layout_rotation);
         mRotationAngleSeekBar = (SeekBar) view.findViewById(R.id.rotation_angle_seek_bar);
         mRotationAngleSeekBarText = (TextView) view.findViewById(R.id.rotation_angle_seek_bar_text);
         mRotationAngleRadioGroup = (RadioGroup) view.findViewById(R.id.rotation_angle_selection);
@@ -722,8 +721,7 @@ public abstract class BaseToolWithRectangleShape extends BaseToolWithShape {
                         //button.setText(String.valueOf(mSnapAngle));
                     }
                 });
-
-        builder.show();
+		return builder.create();
     }
 
     // ### new for rotate with defined angle
