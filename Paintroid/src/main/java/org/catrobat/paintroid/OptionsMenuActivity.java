@@ -74,24 +74,18 @@ public abstract class OptionsMenuActivity extends SherlockFragmentActivity {
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 
-		switch (item.getItemId()) {
-		case R.id.menu_item_save_image:
+		if(item.getItemId() == R.id.menu_item_save_image) {
 			SaveTask saveTask = new SaveTask(this);
 			saveTask.execute();
-			break;
-		case R.id.menu_item_save_copy:
+		} else if (item.getItemId() ==  R.id.menu_item_save_copy) {
 			PaintroidApplication.saveCopy = true;
 			SaveTask saveCopyTask = new SaveTask(this);
 			saveCopyTask.execute();
-			break;
-		case R.id.menu_item_new_image:
+		} else if (item.getItemId() ==  R.id.menu_item_new_image) {
 			chooseNewImage();
-			break;
-
-		case R.id.menu_item_load_image:
+		} else if (item.getItemId() ==  R.id.menu_item_load_image) {
 			onLoadImage();
-			break;
-		default:
+		} else {
 			return super.onOptionsItemSelected(item);
 		}
 		return true;

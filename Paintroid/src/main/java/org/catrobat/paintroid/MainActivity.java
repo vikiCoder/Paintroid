@@ -90,7 +90,7 @@ public class MainActivity extends OptionsMenuActivity {
 		 * .getDefaultSharedPreferences(this); String languageString =
 		 * sharedPreferences.getString(
 		 * getString(R.string.preferences_language_key), "nolang");
-		 * 
+		 *
 		 * if (languageString.equals("nolang")) {
 		 * Log.e(PaintroidApplication.TAG, "no language preference exists"); }
 		 * else { Log.i(PaintroidApplication.TAG, "load language: " +
@@ -257,23 +257,22 @@ public class MainActivity extends OptionsMenuActivity {
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 
-		switch (item.getItemId()) {
-		case R.id.menu_item_back_to_catroid:
+		if (item.getItemId() == R.id.menu_item_back_to_catroid) {
 			showSecurityQuestionBeforeExit();
 			return true;
-		case R.id.menu_item_terms_of_use_and_service:
+		} else if (item.getItemId() ==  R.id.menu_item_terms_of_use_and_service) {
 			DialogTermsOfUseAndService termsOfUseAndService = new DialogTermsOfUseAndService();
 			termsOfUseAndService.show(getSupportFragmentManager(),
 					"termsofuseandservicedialogfragment");
 			return true;
-		case R.id.menu_item_about:
+		} else if (item.getItemId() == R.id.menu_item_about) {
 			DialogAbout about = new DialogAbout();
 			about.show(getSupportFragmentManager(), "aboutdialogfragment");
 			return true;
-		case R.id.menu_item_hide_menu:
+		} else if (item.getItemId() == R.id.menu_item_hide_menu) {
 			setFullScreen(mToolbarIsVisible);
 			return true;
-		case android.R.id.home:
+		} else if (item.getItemId() == android.R.id.home) {
 			if (PaintroidApplication.openedFromCatroid) {
 				showSecurityQuestionBeforeExit();
 			}
@@ -284,7 +283,7 @@ public class MainActivity extends OptionsMenuActivity {
 			// intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
 			// startActivity(intent);
 			// return false;
-		default:
+		} else {
 			return super.onOptionsItemSelected(item);
 		}
 	}

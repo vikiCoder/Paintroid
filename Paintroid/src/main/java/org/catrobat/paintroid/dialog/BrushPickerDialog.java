@@ -185,27 +185,18 @@ public final class BrushPickerDialog extends DialogFragment implements
 	@Override
 	public void onClick(View v) {
 
-		switch (v.getId()) {
-
-		case R.id.stroke_ibtn_circle:
+		if (v.getId() == R.id.stroke_ibtn_circle) {
 			updateStrokeCap(Cap.ROUND);
 			mRbtnCircle.setChecked(true);
-			break;
-
-		case R.id.stroke_ibtn_rect:
+		} else if (v.getId() == R.id.stroke_ibtn_rect) {
 			updateStrokeCap(Cap.SQUARE);
 			mRbtnRect.setChecked(true);
-			break;
-
-		case R.id.stroke_rbtn_circle:
+		} else if (v.getId() == R.id.stroke_rbtn_circle) {
 			updateStrokeCap(Cap.ROUND);
-			break;
-
-		case R.id.stroke_rbtn_rect:
+		} else if (v.getId() == R.id.stroke_rbtn_rect) {
 			updateStrokeCap(Cap.SQUARE);
-			break;
-		default:
-			break;
+		} else {
+
 		}
 	}
 

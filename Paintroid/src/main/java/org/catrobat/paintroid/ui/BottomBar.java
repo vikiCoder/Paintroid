@@ -36,23 +36,22 @@ public class BottomBar implements View.OnTouchListener {
 	public boolean onTouch(View view, MotionEvent motionEvent) {
 		if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
 			view.setBackgroundResource(R.color.transparent);
-			switch (view.getId()) {
-			case R.id.btn_bottom_attribute1:
+			if (view.getId() == R.id.btn_bottom_attribute1) {
 				if (PaintroidApplication.currentTool != null) {
 					PaintroidApplication.currentTool
 							.attributeButtonClick(TopBar.ToolButtonIDs.BUTTON_ID_PARAMETER_BOTTOM_1);
 				}
 				return true;
-			case R.id.btn_bottom_attribute2:
+			} else if (view.getId() == R.id.btn_bottom_attribute2) {
 				if (PaintroidApplication.currentTool != null) {
 					PaintroidApplication.currentTool
 							.attributeButtonClick(TopBar.ToolButtonIDs.BUTTON_ID_PARAMETER_BOTTOM_2);
 				}
 				return true;
-			case R.id.btn_bottom_tools:
+			} else if (view.getId() == R.id.btn_bottom_tools) {
 				ToolsDialog.getInstance().show();
 				return true;
-			default:
+			} else {
 				return false;
 			}
 		} else if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {

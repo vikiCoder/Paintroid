@@ -170,20 +170,19 @@ public class TopBar extends Observable implements OnTouchListener {
 
 	@Override
 	public boolean onTouch(View view, MotionEvent event) {
-		switch (view.getId()) {
-		case R.id.btn_top_undo:
+		if (view.getId() == R.id.btn_top_undo) {
 			onUndoTouch(event);
 			return true;
-		case R.id.btn_top_redo:
+		} else if (view.getId() == R.id.btn_top_redo) {
 			onRedoTouch(event);
 			return true;
-		case R.id.btn_top_toolswitch:
+		} else if (view.getId() ==  R.id.btn_top_toolswitch) {
 			onToolSwitchTouch(event);
 			return true;
-		case R.id.btn_top_color:
+		} else if (view.getId() ==  R.id.btn_top_color) {
 			onColorTouch(event);
 			return true;
-		default:
+		} else {
 			return false;
 		}
 	}
