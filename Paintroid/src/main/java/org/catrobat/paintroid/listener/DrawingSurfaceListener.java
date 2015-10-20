@@ -34,7 +34,7 @@ import android.view.View.OnTouchListener;
 
 public class DrawingSurfaceListener implements OnTouchListener {
 	static enum TouchMode {
-		DRAW, PINCH
+		DRAW, PINCH, LOCK
 	};
 
 	private final int BLOCKING_TIME = 250 * 1000 * 1000;
@@ -69,73 +69,75 @@ public class DrawingSurfaceListener implements OnTouchListener {
 		PointF touchPoint = mPerspective
 				.getCanvasPointFromSurfacePoint(new PointF(event.getX(), event
 						.getY()));
-
+		if(PaintroidApplication.drawingSurface.getLock()) {
+			mTouchMode = TouchMode.LOCK;
+		}
 		switch (event.getAction()) {
-		case MotionEvent.ACTION_DOWN:
-			PaintroidApplication.currentTool.handleDown(touchPoint);
+			case MotionEvent.ACTION_DOWN:
+				PaintroidApplication.currentTool.handleDown(touchPoint);
 
-			moveThread = new MoveThread();
-			moveThread.setCalculationVariables(event.getX(), event.getY(),
-					view.getWidth(), view.getHeight());
-			moveThread.start();
+				moveThread = new MoveThread();
+				moveThread.setCalculationVariables(event.getX(), event.getY(),
+						view.getWidth(), view.getHeight());
+				moveThread.start();
 
-			break;
-		case MotionEvent.ACTION_MOVE:
-			if (event.getPointerCount() == 1) {
-				if (System.nanoTime() < (mZoomTimeStamp + BLOCKING_TIME)) {
-					break;
-				}
-				mTouchMode = TouchMode.DRAW;
-				if (moveThread != null) {
-					moveThread.setCalculationVariables(event.getX(),
-							event.getY(), view.getWidth(), view.getHeight());
-				}
-				PaintroidApplication.currentTool.handleMove(touchPoint);
-
-			} else {
-				if (moveThread != null) {
-					if (moveThread.scrolling
-							&& (System.nanoTime() > (moveThread.threadStartTime + BLOCKING_TIME))) {
+				break;
+			case MotionEvent.ACTION_MOVE:
+				if (event.getPointerCount() == 1) {
+					if (System.nanoTime() < (mZoomTimeStamp + BLOCKING_TIME)) {
 						break;
-					} else {
-						moveThread.kill();
-						moveThread = null;
 					}
-				}
-				mTouchMode = TouchMode.PINCH;
+					mTouchMode = TouchMode.DRAW;
+					if (moveThread != null) {
+						moveThread.setCalculationVariables(event.getX(),
+								event.getY(), view.getWidth(), view.getHeight());
+					}
+					PaintroidApplication.currentTool.handleMove(touchPoint);
 
-				float pointerDistanceOld = mPointerDistance;
-				mPointerDistance = calculatePointerDistance(event);
-				if (pointerDistanceOld > 0) {
-					float scale = (mPointerDistance / pointerDistanceOld);
-					mPerspective.multiplyScale(scale);
-				}
+				} else {
+					if (moveThread != null) {
+						if (moveThread.scrolling
+								&& (System.nanoTime() > (moveThread.threadStartTime + BLOCKING_TIME))) {
+							break;
+						} else {
+							moveThread.kill();
+							moveThread = null;
+						}
+					}
+					mTouchMode = TouchMode.PINCH;
 
-				float xOld = mPointerMean.x;
-				float yOld = mPointerMean.y;
-				calculatePointerMean(event, mPointerMean);
-				if (xOld > 0 || yOld > 0) {
-					mPerspective.translate(mPointerMean.x - xOld,
-							mPointerMean.y - yOld);
+					float pointerDistanceOld = mPointerDistance;
+					mPointerDistance = calculatePointerDistance(event);
+					if (pointerDistanceOld > 0) {
+						float scale = (mPointerDistance / pointerDistanceOld);
+						mPerspective.multiplyScale(scale);
+					}
+
+					float xOld = mPointerMean.x;
+					float yOld = mPointerMean.y;
+					calculatePointerMean(event, mPointerMean);
+					if (xOld > 0 || yOld > 0) {
+						mPerspective.translate(mPointerMean.x - xOld,
+								mPointerMean.y - yOld);
+					}
+					mZoomTimeStamp = System.nanoTime();
 				}
-				mZoomTimeStamp = System.nanoTime();
-			}
-			break;
-		case MotionEvent.ACTION_UP:
-		case MotionEvent.ACTION_CANCEL:
-			if (moveThread != null) {
-				moveThread.kill();
-			}
-			moveThread = null;
-			if (mTouchMode == TouchMode.DRAW) {
-				PaintroidApplication.currentTool.handleUp(touchPoint);
-			} else {
-				PaintroidApplication.currentTool
-						.resetInternalState(StateChange.MOVE_CANCELED);
-			}
-			mPointerDistance = 0;
-			mPointerMean.set(0, 0);
-			break;
+				break;
+			case MotionEvent.ACTION_UP:
+			case MotionEvent.ACTION_CANCEL:
+				if (moveThread != null) {
+					moveThread.kill();
+				}
+				moveThread = null;
+				if (mTouchMode == TouchMode.DRAW) {
+					PaintroidApplication.currentTool.handleUp(touchPoint);
+				} else {
+					PaintroidApplication.currentTool
+							.resetInternalState(StateChange.MOVE_CANCELED);
+				}
+				mPointerDistance = 0;
+				mPointerMean.set(0, 0);
+				break;
 		}
 		return true;
 	}
@@ -156,7 +158,7 @@ public class DrawingSurfaceListener implements OnTouchListener {
 		private int height;
 		private long threadStartTime;
 		private EnumSet<ToolType> ignoredTools = EnumSet.of(ToolType.PIPETTE,
-				ToolType.FILL, ToolType.RESIZE, ToolType.FLIP, ToolType.MOVE,
+				ToolType.FILL, ToolType.CROP, ToolType.FLIP, ToolType.MOVE,
 				ToolType.ZOOM);
 
 		protected MoveThread() {

@@ -21,6 +21,7 @@ package org.catrobat.paintroid;
 
 import java.io.File;
 
+import org.catrobat.paintroid.dialog.BlurPickerDialog;
 import org.catrobat.paintroid.dialog.BrushPickerDialog;
 import org.catrobat.paintroid.dialog.CustomAlertDialogBuilder;
 import org.catrobat.paintroid.dialog.DialogAbout;
@@ -28,6 +29,9 @@ import org.catrobat.paintroid.dialog.DialogTermsOfUseAndService;
 import org.catrobat.paintroid.dialog.IndeterminateProgressDialog;
 import org.catrobat.paintroid.dialog.InfoDialog;
 import org.catrobat.paintroid.dialog.InfoDialog.DialogType;
+import org.catrobat.paintroid.dialog.LayersDialog;
+import org.catrobat.paintroid.dialog.ResizeImageDialog;
+import org.catrobat.paintroid.dialog.TextToolDialog;
 import org.catrobat.paintroid.dialog.ToolsDialog;
 import org.catrobat.paintroid.dialog.colorpicker.ColorPickerDialog;
 import org.catrobat.paintroid.listener.DrawingSurfaceListener;
@@ -38,7 +42,9 @@ import org.catrobat.paintroid.tools.implementation.ImportTool;
 import org.catrobat.paintroid.ui.BottomBar;
 import org.catrobat.paintroid.ui.DrawingSurface;
 import org.catrobat.paintroid.ui.Perspective;
+import org.catrobat.paintroid.ui.PreferencesBar;
 import org.catrobat.paintroid.ui.TopBar;
+import org.catrobat.paintroid.ui.button.ToolsAdapter;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -54,17 +60,20 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
 import android.view.SurfaceView;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 
-public class MainActivity extends OptionsMenuActivity {
+public class MainActivity extends OptionsMenuActivity{
 
 	public static final String EXTRA_INSTANCE_FROM_CATROBAT = "EXTRA_INSTANCE_FROM_CATROBAT";
 	public static final String EXTRA_ACTION_BAR_HEIGHT = "EXTRA_ACTION_BAR_HEIGHT";
@@ -72,16 +81,25 @@ public class MainActivity extends OptionsMenuActivity {
 	protected TopBar mTopBar;
 	protected BottomBar mBottomBar;
 
+
 	protected boolean mToolbarIsVisible = true;
 	private Menu mMenu = null;
 	private static final int ANDROID_VERSION_ICE_CREAM_SANDWICH = 14;
+
+    /*private String[] mLayerTitles;
+    private DrawerLayout mDrawerLayout;
+    private ListView mDrawerList;*/
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 
 		ColorPickerDialog.init(this);
 		BrushPickerDialog.init(this);
+        BlurPickerDialog.init(this);
+		TextToolDialog.init(this);
+        BlurPickerDialog.init(this);
 		ToolsDialog.init(this);
+        ResizeImageDialog.init(this);
 		IndeterminateProgressDialog.init(this);
 
 		/**
@@ -133,6 +151,7 @@ public class MainActivity extends OptionsMenuActivity {
 		mDrawingSurfaceListener = new DrawingSurfaceListener();
 		mTopBar = new TopBar(this, PaintroidApplication.openedFromCatroid);
 		mBottomBar = new BottomBar(this);
+		mPreferencesBar = new PreferencesBar(this);
 
 		PaintroidApplication.drawingSurface
 				.setOnTouchListener(mDrawingSurfaceListener);
@@ -177,6 +196,19 @@ public class MainActivity extends OptionsMenuActivity {
 			initialiseNewBitmap();
 		}
 
+
+        LayersDialog.init(this, PaintroidApplication.drawingSurface.getBitmapCopy());
+
+        /*mLayerTitles = getResources().getStringArray(R.array.layers_array);
+        //mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        //mDrawerList = (ListView) findViewById(R.id.left_drawer);
+
+        // Set the adapter for the list view
+        mDrawerList.setAdapter(new ArrayAdapter<String>(this,
+                R.layout.layer_list_item, mLayerTitles));
+        // Set the list's click listener
+        mDrawerList.setOnItemClickListener(new DrawerItemClickListener());*/
+
 	}
 
 	@Override
@@ -212,6 +244,8 @@ public class MainActivity extends OptionsMenuActivity {
 		}
 	}
 
+
+
 	@Override
 	public void onDetachedFromWindow() {
 		IndeterminateProgressDialog.getInstance().dismiss();
@@ -232,6 +266,7 @@ public class MainActivity extends OptionsMenuActivity {
 		PaintroidApplication.saveCopy = false;
 
 		ToolsDialog.getInstance().dismiss();
+        LayersDialog.getInstance().dismiss();
 		IndeterminateProgressDialog.getInstance().dismiss();
 		ColorPickerDialog.getInstance().dismiss();
 		// BrushPickerDialog.getInstance().dismiss(); // TODO: how can there
@@ -270,6 +305,14 @@ public class MainActivity extends OptionsMenuActivity {
 			DialogAbout about = new DialogAbout();
 			about.show(getSupportFragmentManager(), "aboutdialogfragment");
 			return true;
+		case R.id.menu_item_preferences:
+			LinearLayout preferencesBarLayout = (LinearLayout) findViewById(R.id.main_preferences_bar);
+			if(preferencesBarLayout.getVisibility() == View.VISIBLE)
+				preferencesBarLayout.setVisibility(View.GONE);
+			else
+				preferencesBarLayout.setVisibility(View.VISIBLE);
+			    mPreferencesBar.init();
+			return true;
 		case R.id.menu_item_hide_menu:
 			setFullScreen(mToolbarIsVisible);
 			return true;
@@ -278,12 +321,6 @@ public class MainActivity extends OptionsMenuActivity {
 				showSecurityQuestionBeforeExit();
 			}
 			return true;
-			/* EXCLUDE PREFERENCES FOR RELEASE */
-			// case R.id.menu_item_preferences:
-			// Intent intent = new Intent(this, SettingsActivity.class);
-			// intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
-			// startActivity(intent);
-			// return false;
 		default:
 			return super.onOptionsItemSelected(item);
 		}
@@ -336,8 +373,10 @@ public class MainActivity extends OptionsMenuActivity {
 								Log.e(PaintroidApplication.TAG,
 										"importPngToFloatingBox: Current tool is no ImportTool as required");
 							}
+							handler.sendEmptyMessage(0);
 						}
 					});
+
 
 			break;
 		case REQUEST_CODE_FINISH:
@@ -381,6 +420,9 @@ public class MainActivity extends OptionsMenuActivity {
 		if (tool != null) {
 			mTopBar.setTool(tool);
 			mBottomBar.setTool(tool);
+			mPreferencesBar.setTool(tool);
+			ToolsDialog.getInstance().getAdapter().setNewToolType(tool.getToolType());
+			ToolsDialog.getInstance().refresh();
 			PaintroidApplication.currentTool = tool;
 			PaintroidApplication.currentTool.setDrawPaint(tempPaint);
 		}

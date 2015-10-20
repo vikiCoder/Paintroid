@@ -29,6 +29,7 @@ import org.catrobat.paintroid.command.implementation.BaseCommand;
 import org.catrobat.paintroid.dialog.BrushPickerDialog;
 import org.catrobat.paintroid.dialog.BrushPickerDialog.OnBrushChangedListener;
 import org.catrobat.paintroid.dialog.IndeterminateProgressDialog;
+import org.catrobat.paintroid.dialog.TextToolDialog;
 import org.catrobat.paintroid.dialog.colorpicker.ColorPickerDialog;
 import org.catrobat.paintroid.dialog.colorpicker.ColorPickerDialog.OnColorPickedListener;
 import org.catrobat.paintroid.tools.Tool;
@@ -204,6 +205,14 @@ public abstract class BaseTool extends Observable implements Tool, Observer {
 				"brushpicker");
 	}
 
+    protected void showTextToolDialog() {
+        TextToolDialog.getInstance().show(
+                ((MainActivity) mContext).getSupportFragmentManager(),
+                "texttool");
+        TextToolDialog.getInstance().setPaint(mBitmapPaint);
+    }
+
+
 	@Override
 	public void attributeButtonClick(ToolButtonIDs buttonNumber) {
 		// no default action
@@ -216,8 +225,8 @@ public abstract class BaseTool extends Observable implements Tool, Observer {
 			switch (mToolType) {
 			case BRUSH:
 				return R.drawable.icon_menu_brush;
-			case RESIZE:
-				return R.drawable.icon_menu_resize;
+			case CROP:
+				return R.drawable.icon_menu_crop;
 			case CURSOR:
 				return R.drawable.icon_menu_cursor;
 			case ELLIPSE:
@@ -242,6 +251,12 @@ public abstract class BaseTool extends Observable implements Tool, Observer {
 				return R.drawable.icon_menu_rotate_left;
 			case LINE:
 				return R.drawable.icon_menu_straight_line;
+            case TEXTTOOL:
+                return R.drawable.icon_menu_texttool;
+            case BLUR:
+                return R.drawable.icon_menu_blur;
+            case REPLACECOLORTOOL:
+                return R.drawable.icon_menu_replacecolortool;
 			default:
 				return R.drawable.icon_menu_brush;
 			}

@@ -30,6 +30,7 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.PointF;
+import android.os.Handler;
 import android.util.DisplayMetrics;
 import android.view.Display;
 import android.view.WindowManager;
@@ -43,6 +44,7 @@ public abstract class BaseToolWithShape extends BaseTool implements
 			.getResources().getColor(R.color.rectangle_secondary_color);
 	protected PointF mToolPosition;
 	protected Paint mLinePaint;
+	protected Handler positionChangedHandler;
 
 	public BaseToolWithShape(Context context, ToolType toolType) {
 		super(context, toolType);
@@ -110,4 +112,17 @@ public abstract class BaseToolWithShape extends BaseTool implements
 		return new Point(deltaX, deltaY);
 	}
 
+	public float getXCoordinate()
+	{
+		return mToolPosition.x;
+	}
+
+	public float getYCoordinate()
+	{
+		return mToolPosition.y;
+	}
+
+	public void setPositionChangedHandler(Handler positionChangedHandler) {
+		this.positionChangedHandler = positionChangedHandler;
+	}
 }

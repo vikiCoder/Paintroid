@@ -179,4 +179,16 @@ public class GeometricFillTool extends BaseToolWithRectangleShape {
 	@Override
 	public void resetInternalState() {
 	}
+
+	@Override
+	public float getXCoordinate()
+	{
+		return mToolPosition.x - (mBoxWidth/2) + SHAPE_OFFSET;
+	}
+
+	@Override
+	public float getYCoordinate()
+	{
+		return mToolPosition.y - (mBoxHeight/2) + SHAPE_OFFSET;
+	}
 }

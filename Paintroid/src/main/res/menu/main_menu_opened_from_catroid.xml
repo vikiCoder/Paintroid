@@ -45,9 +45,9 @@
             android:title="@string/menu_hide_menu"/>
 
         <!-- EXCLUDE PREFERENCES FOR RELEASE -->
-        <!-- <item android:id="@+id/menu_item_preferences" -->
-        <!-- android:title="@string/menu_preferences" -->
-        <!-- android:showAsAction="never"/> -->
+        <item android:id="@+id/menu_item_preferences"
+            android:title="@string/menu_preferences"
+            android:showAsAction="never"/>
 
         <item
             android:id="@+id/menu_item_terms_of_use_and_service"

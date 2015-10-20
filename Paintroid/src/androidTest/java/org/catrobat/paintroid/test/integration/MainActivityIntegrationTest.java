@@ -19,12 +19,20 @@
 
 package org.catrobat.paintroid.test.integration;
 
+import java.io.File;
 import java.util.ArrayList;
 
+import org.catrobat.paintroid.FileIO;
+import org.catrobat.paintroid.OptionsMenuActivity;
+import org.catrobat.paintroid.PaintroidApplication;
 import org.catrobat.paintroid.R;
 import org.catrobat.paintroid.tools.ToolType;
 import org.catrobat.paintroid.ui.DrawingSurface;
 
+import android.content.ContentResolver;
+import android.content.res.Resources;
+import android.net.Uri;
+import android.util.DisplayMetrics;
 import android.widget.TextView;
 
 public class MainActivityIntegrationTest extends BaseIntegrationTestClass {
@@ -62,6 +70,63 @@ public class MainActivityIntegrationTest extends BaseIntegrationTestClass {
 		mSolo.goBack();
 	}
 
+	public void testMenuPreferences() {
+		String testPicture = "preferences_test_pic", testType = "png";
+		DisplayMetrics metrics = PaintroidApplication.applicationContext.getResources().getDisplayMetrics();
+		int width = metrics.widthPixels;
+		int height = metrics.heightPixels;
+
+		File f = FileIO.createNewEmptyPictureFile(getActivity().getApplicationContext(), testPicture + "." + testType);
+		PaintroidApplication.savedPictureUri = Uri.fromFile(f);
+		PaintroidApplication.originalImageWidth = width;
+		PaintroidApplication.originalImageHeight = height;
+
+		String buttonPreferences = getActivity().getString(R.string.menu_preferences);
+		clickOnMenuItem(buttonPreferences);
+		mSolo.sleep(500);
+
+
+		String expectedResolution = width + " x " + height;
+
+		assertTrue("Expected resolution \""+expectedResolution+"\" did not match",
+				mSolo.waitForText(expectedResolution, 1, TIMEOUT, true, false));
+
+		String expectedImageName = testPicture;
+
+		assertTrue("Expected image name did not match",
+				mSolo.waitForText(expectedImageName, 1, TIMEOUT, true, false));
+
+		String expectedImageType = testType.toUpperCase();
+
+		assertTrue("Expected image type did not match",
+				mSolo.waitForText(expectedImageType, 1, TIMEOUT, true, false));
+		mSolo.goBack();
+	}
+
+	public void testPreferencesCoordinates()
+	{
+		DisplayMetrics metrics = PaintroidApplication.applicationContext.getResources().getDisplayMetrics();
+		int width = metrics.widthPixels;
+		int height = metrics.heightPixels;
+
+		String buttonPreferences = getActivity().getString(R.string.menu_preferences);
+		clickOnMenuItem(buttonPreferences);
+		mSolo.sleep(50);
+
+		selectTool(ToolType.FILL);
+		mSolo.clickOnScreen(width / 2, height / 2);
+		selectTool(ToolType.CROP);
+
+		TextView xTv = (TextView)mSolo.getCurrentActivity().findViewById( R.id.tv_bottom_xcoord);
+		TextView yTv = (TextView)mSolo.getCurrentActivity().findViewById( R.id.tv_bottom_ycoord);
+
+		assertTrue("Expected x coordinate did not match",
+				xTv.getText().equals("0"));
+		assertTrue("Expected y coordinate did not match",
+				yTv.getText().equals("0"));
+		mSolo.goBack();
+	}
+
 	public void testHelpDialogForBrush() {
 		toolHelpTest(ToolType.BRUSH, R.string.help_content_brush);
 	}
@@ -90,8 +155,8 @@ public class MainActivityIntegrationTest extends BaseIntegrationTestClass {
 		toolHelpTest(ToolType.ELLIPSE, R.string.help_content_ellipse);
 	}
 
-	public void testHelpDialogForResize() {
-		toolHelpTest(ToolType.RESIZE, R.string.help_content_resize);
+	public void testHelpDialogForCrop() {
+		toolHelpTest(ToolType.CROP, R.string.help_content_crop);
 	}
 
 	public void testHelpDialogForEraser() {

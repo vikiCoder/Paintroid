@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_alignParentBottom="true"
+    android:orientation="vertical" >
+    <TextView
+        android:layout_width="230dp"
+        android:layout_height="wrap_content"
+        android:textColor="@color/dialog_subtitle"
+        android:text="@string/texttool_dialog_input"
+        android:textSize="14sp"
+        android:layout_marginBottom="4dp"
+        android:layout_marginLeft="24dip"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="28dp"
+        android:textStyle="bold" />
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:background="@color/dialog_subtitle_border" />
+    <EditText android:id="@+id/texttool_dialog_textcontent"
+        android:layout_width="254dp"
+        android:layout_height="wrap_content"
+        android:inputType="text"
+        android:layout_marginBottom="4dp"
+        android:layout_marginLeft="24dip"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="10dp"
+        android:layout_gravity="center"
+        android:textCursorDrawable="@null"
+        android:textColor="#ffffff"  />
+    <TextView
+        android:layout_width="230dp"
+        android:layout_height="wrap_content"
+        android:textColor="@color/dialog_subtitle"
+        android:text="@string/texttool_dialog_options"
+        android:textSize="14sp"
+        android:layout_marginBottom="4dp"
+        android:layout_marginLeft="24dip"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="10dp"
+        android:textStyle="bold" />
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:background="@color/dialog_subtitle_border" />
+
+    <Spinner
+        android:id="@+id/font_spinner"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        >
+    </Spinner>
+
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:weightSum="4"
+        android:layout_height="wrap_content">
+
+        <ToggleButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textOn="@string/underlined"
+            android:textOff="U"
+            android:layout_weight="1"
+            android:layout_marginBottom="10dp"
+            android:id="@+id/toggleUnderlined" />
+
+        <ToggleButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textOn="@string/italic"
+            android:textOff="I"
+            android:layout_weight="1"
+            android:id="@+id/toggleItalic" />
+
+        <ToggleButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textOn="@string/bold"
+            android:textOff="B"
+            android:layout_weight="1"
+            android:id="@+id/toggleBold" />
+
+        <Spinner
+            android:id="@+id/size_spinner"
+            android:layout_width="wrap_content"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"/>
+
+
+    </LinearLayout>
+
+
+</LinearLayout>

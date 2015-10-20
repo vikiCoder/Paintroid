@@ -66,6 +66,9 @@ public class BaseIntegrationTestClass extends ActivityInstrumentationTestCase2<M
 	protected ImageButton mButtonTopRedo;
 	protected ImageButton mButtonTopTool;
 	protected ImageButton mButtonTopColor;
+    protected ImageButton mButtonLayers;
+    protected ImageButton mButtonLayerNew;
+    protected ImageButton mButtonLayerDelete;
 	protected View mMenuBottomTool;
 	protected View mMenuBottomParameter1;
 	protected View mMenuBottomParameter2;
@@ -111,6 +114,7 @@ public class BaseIntegrationTestClass extends ActivityInstrumentationTestCase2<M
 			mButtonTopRedo = (ImageButton) getActivity().findViewById(R.id.btn_top_redo);
 			mButtonTopTool = (ImageButton) getActivity().findViewById(R.id.btn_top_toolswitch);
 			mButtonTopColor = (ImageButton) getActivity().findViewById(R.id.btn_top_color);
+            mButtonLayers = (ImageButton) getActivity().findViewById(R.id.btn_bottom_layers);
 			mMenuBottomTool = getActivity().findViewById(R.id.btn_bottom_tools);
 			mMenuBottomParameter1 = getActivity().findViewById(R.id.btn_bottom_attribute1);
 			mMenuBottomParameter2 = getActivity().findViewById(R.id.btn_bottom_attribute2);

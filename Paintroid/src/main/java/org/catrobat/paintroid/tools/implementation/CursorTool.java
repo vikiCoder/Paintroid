@@ -132,6 +132,9 @@ public class CursorTool extends BaseToolWithShape {
 						+ Math.abs(coordinate.y - mPreviousEventCoordinate.y));
 
 		mPreviousEventCoordinate.set(coordinate.x, coordinate.y);
+		if(positionChangedHandler != null) {
+			positionChangedHandler.sendEmptyMessage(1);
+		}
 		return true;
 	}
 
@@ -280,6 +283,7 @@ public class CursorTool extends BaseToolWithShape {
 	public void attributeButtonClick(ToolButtonIDs buttonNumber) {
 		switch (buttonNumber) {
 		case BUTTON_ID_PARAMETER_BOTTOM_1:
+
 			showBrushPicker();
 			break;
 		case BUTTON_ID_PARAMETER_BOTTOM_2:

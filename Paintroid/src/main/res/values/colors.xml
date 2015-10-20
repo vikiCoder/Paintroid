@@ -24,6 +24,8 @@
     <color name="tools_text_color">#efefef</color>
     <color name="transparent">#00000000</color>
     <color name="custom_background_color">#002534</color>
+    <color name="preferences_toolbar">#00374C</color>
+    <color name="preferences_toolbar_info">#004F6E</color>
     <color name="text_color">@android:color/white</color>
     <color name="rectangle_secondary_color">#33B5E5</color>
     <color name="rectangle_primary_color">#555555</color>

@@ -348,6 +348,5 @@ public class StampTool extends BaseToolWithRectangleShape {
 		protected void onPostExecute(Void nothing) {
 			IndeterminateProgressDialog.getInstance().dismiss();
 		}
-
 	}
 }

@@ -219,14 +219,18 @@ public abstract class FileIO {
 
 		int tmpWidth = options.outWidth;
 		int tmpHeight = options.outHeight;
+
+		PaintroidApplication.originalImageHeight = tmpHeight;
+		PaintroidApplication.originalImageWidth = tmpWidth;
+
 		int sampleSize = 1;
 
 		DisplayMetrics metrics = new DisplayMetrics();
 		Display display = ((WindowManager) PaintroidApplication.applicationContext
 				.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
 		display.getMetrics(metrics);
-		int maxWidth = display.getWidth();
-		int maxHeight = display.getHeight();
+		int maxWidth = metrics.widthPixels;
+		int maxHeight = metrics.heightPixels;
 
 		while (tmpWidth > maxWidth || tmpHeight > maxHeight) {
 			tmpWidth /= 2;
@@ -278,14 +282,18 @@ public abstract class FileIO {
 
 		int tmpWidth = options.outWidth;
 		int tmpHeight = options.outHeight;
+
+		PaintroidApplication.originalImageHeight = tmpHeight;
+		PaintroidApplication.originalImageWidth = tmpWidth;
+
 		int sampleSize = 1;
 
 		DisplayMetrics metrics = new DisplayMetrics();
 		Display display = ((WindowManager) PaintroidApplication.applicationContext
 				.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
 		display.getMetrics(metrics);
-		int maxWidth = display.getWidth();
-		int maxHeight = display.getHeight();
+		int maxWidth = metrics.widthPixels;
+		int maxHeight = metrics.heightPixels;
 
 		while (tmpWidth > maxWidth || tmpHeight > maxHeight) {
 			tmpWidth /= 2;

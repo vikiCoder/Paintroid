@@ -46,5 +46,8 @@
         <item name="menu_new_image_empty_image">@string/menu_new_image_empty_image</item>
         <item name="menu_new_image_from_camera">@string/menu_new_image_from_camera</item>
     </array>
+    <array name="layers_array">
+        <item name="layer_default">@string/layer_string_default</item>
+    </array>
 
 </resources>

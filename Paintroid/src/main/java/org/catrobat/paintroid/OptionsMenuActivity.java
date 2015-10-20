@@ -24,7 +24,9 @@ import java.io.File;
 import org.catrobat.paintroid.dialog.IndeterminateProgressDialog;
 import org.catrobat.paintroid.dialog.InfoDialog;
 import org.catrobat.paintroid.dialog.InfoDialog.DialogType;
+import org.catrobat.paintroid.dialog.ResizeImageDialog;
 import org.catrobat.paintroid.tools.Tool.StateChange;
+import org.catrobat.paintroid.ui.PreferencesBar;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -36,9 +38,12 @@ import android.graphics.Bitmap.Config;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Handler;
+import android.os.Message;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.Display;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
@@ -57,13 +62,30 @@ public abstract class OptionsMenuActivity extends SherlockFragmentActivity {
 	protected static final String URI_ALTERNATIVE_DEVICES = "com.android.gallery3d";
 	protected static final String TEMPORARY_BITMAP_NAME = "temporary.bmp";
 
+	protected PreferencesBar mPreferencesBar;
+
 	public static final float ACTION_BAR_HEIGHT = 50.0f;
 
 	protected boolean loadBitmapFailed = false;
 
+	protected Handler handler;
+
+
 	public static enum ACTION {
 		SAVE, CANCEL
 	};
+
+	public OptionsMenuActivity()
+	{
+		super();
+		handler = new Handler() {
+		@Override
+		public void handleMessage(Message msg) {
+			mPreferencesBar.init();
+		}
+		};
+
+	}
 
 	private static Uri mCameraImageUri;
 
@@ -91,13 +113,27 @@ public abstract class OptionsMenuActivity extends SherlockFragmentActivity {
 		case R.id.menu_item_load_image:
 			onLoadImage();
 			break;
+        case R.id.menu_item_resize_image:
+            onResizeImage();
+            break;
 		default:
 			return super.onOptionsItemSelected(item);
 		}
 		return true;
 	}
 
-	private void onLoadImage() {
+    private void onResizeImage() {
+        try {
+            ResizeImageDialog.getInstance().show(
+                    getSupportFragmentManager(),
+                    "resizeimage");
+        } catch(Exception e) {
+            Log.d("EXCEPTION", e.getMessage());
+        }
+
+    }
+
+    private void onLoadImage() {
 
 		if (!PaintroidApplication.commandManager.hasCommands()
 				&& PaintroidApplication.isPlainImage) {
@@ -323,6 +359,7 @@ public abstract class OptionsMenuActivity extends SherlockFragmentActivity {
 				} else {
                     PaintroidApplication.savedPictureUri = uri;
                 }
+				handler.sendEmptyMessage(0);
 			}
 		};
 		thread.start();
@@ -373,6 +410,9 @@ public abstract class OptionsMenuActivity extends SherlockFragmentActivity {
 		PaintroidApplication.isPlainImage = true;
 		PaintroidApplication.isSaved = false;
 		PaintroidApplication.savedPictureUri = null;
+		PaintroidApplication.originalImageHeight = 0;
+		PaintroidApplication.originalImageWidth = 0;
+		handler.sendEmptyMessage(1);
 	}
 
 	protected class SaveTask extends AsyncTask<String, Void, Void> {

@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="66dp" >
+
+
+    <HorizontalScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/layout_preferences_bar"
+            android:layout_width="fill_parent"
+            android:layout_height="66dp"
+            android:background="@color/preferences_toolbar_info"
+            android:orientation="horizontal" >
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/tv_bottom_xcoordview"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:background="@color/preferences_toolbar_info"
+                android:orientation="vertical"
+                android:padding="6dp"
+                android:weightSum="3"
+                android:visibility="gone">
+
+                <TextView
+                    android:id="@+id/tv_bottom_xcoordinfo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="2"
+                    android:gravity="left|center_vertical"
+                    android:background="@color/transparent"
+                    android:text="@string/preferences_bar_xcoordinfo"
+                    android:textColor="@color/color_chooser_white"
+                    android:textSize="10dp" />
+
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/color_chooser_white" />
+
+                <TextView
+                    android:id="@+id/tv_bottom_xcoord"
+                    android:layout_width="wrap_content"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="1"
+                    android:gravity="left|center_vertical"
+                    android:background="@color/transparent"
+                    android:textColor="@color/color_chooser_white" />
+
+            </LinearLayout>
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/tv_bottom_ycoordview"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:background="@color/preferences_toolbar_info"
+                android:orientation="vertical"
+                android:padding="6dp"
+                android:weightSum="3"
+                android:visibility="gone">
+
+                <TextView
+                    android:id="@+id/tv_bottom_ycoordinfo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="2"
+                    android:gravity="left|center_vertical"
+                    android:background="@color/transparent"
+                    android:text="@string/preferences_bar_ycoordinfo"
+                    android:textColor="@color/color_chooser_white"
+                    android:textSize="10dp" />
+
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/color_chooser_white" />
+
+                <TextView
+                    android:id="@+id/tv_bottom_ycoord"
+                    android:layout_width="wrap_content"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="1"
+                    android:gravity="left|center_vertical"
+                    android:background="@color/transparent"
+                    android:textColor="@color/color_chooser_white" />
+
+            </LinearLayout>
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:background="@color/preferences_toolbar_info"
+            android:orientation="vertical"
+            android:padding="6dp"
+            android:weightSum="3" >
+
+            <TextView
+                android:id="@+id/tv_bottom_canvasresinfo"
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:layout_weight="2"
+                android:gravity="left|center_vertical"
+                android:background="@color/transparent"
+                android:text="@string/preferences_bar_canvassize"
+                android:textColor="@color/color_chooser_white"
+                android:textSize="10dp" />
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:background="@color/color_chooser_white" />
+
+            <TextView
+                android:id="@+id/tv_bottom_canvasres"
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
+                android:gravity="left|center_vertical"
+                android:background="@color/transparent"
+                android:textColor="@color/color_chooser_white" />
+
+        </LinearLayout>
+
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/tv_bottom_imgresview"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:background="@color/preferences_toolbar_info"
+            android:orientation="vertical"
+            android:padding="6dp"
+            android:weightSum="3" >
+
+            <TextView
+                android:id="@+id/tv_bottom_imgresinfo"
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:layout_weight="2"
+                android:gravity="left|center_vertical"
+                android:background="@color/transparent"
+                android:text="@string/preferences_bar_imgsize"
+                android:textColor="@color/color_chooser_white"
+                android:textSize="10dp" />
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:background="@color/color_chooser_white" />
+
+            <TextView
+                android:id="@+id/tv_bottom_imgres"
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
+                android:gravity="left|center_vertical"
+                android:background="@color/transparent"
+                android:textColor="@color/color_chooser_white" />
+
+        </LinearLayout>
+
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/tv_bottom_imgnameview"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:background="@color/preferences_toolbar_info"
+            android:orientation="vertical"
+            android:padding="6dp"
+            android:weightSum="3" >
+
+            <TextView
+                android:id="@+id/tv_bottom_nameinfo"
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:layout_weight="2"
+                android:background="@color/transparent"
+                android:gravity="left|center_vertical"
+                android:text="@string/preferences_bar_name"
+                android:textColor="@color/color_chooser_white"
+                android:textSize="10dp" />
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:background="@color/color_chooser_white" />
+
+            <TextView
+                android:id="@+id/tv_bottom_name"
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
+                android:background="@color/transparent"
+                android:gravity="left|center_vertical"
+                android:textColor="@color/color_chooser_white"
+                android:singleLine="true" />
+        </LinearLayout>
+
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/tv_bottom_imgtypeview"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:background="@color/preferences_toolbar_info"
+            android:orientation="vertical"
+            android:padding="6dp"
+            android:weightSum="3" >
+
+            <TextView
+                android:id="@+id/tv_bottom_typeinfo"
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:layout_weight="2"
+                android:background="@color/transparent"
+                android:gravity="left|center_vertical"
+                android:text="@string/preferences_bar_type"
+                android:textColor="@color/color_chooser_white"
+                android:textSize="10dp" />
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:background="@color/color_chooser_white" />
+
+            <TextView
+                android:id="@+id/tv_bottom_type"
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
+                android:background="@color/transparent"
+                android:gravity="left|center_vertical"
+                android:textColor="@color/color_chooser_white" />
+
+            </LinearLayout>
+        </LinearLayout>
+    </HorizontalScrollView>
+</LinearLayout>

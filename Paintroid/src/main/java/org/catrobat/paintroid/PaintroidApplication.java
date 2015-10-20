@@ -49,6 +49,8 @@ public class PaintroidApplication extends Application {
 	public static Menu menu;
 	public static boolean isSaved = true;
 	public static Uri savedPictureUri = null;
+	public static int originalImageWidth = 0;
+	public static int originalImageHeight = 0;
 	public static boolean saveCopy = false;
 
 	@Override

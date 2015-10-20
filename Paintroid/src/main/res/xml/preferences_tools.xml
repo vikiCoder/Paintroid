@@ -54,9 +54,9 @@
             android:title="@string/button_import_image"
             android:defaultValue="true"/>
     	<CheckBoxPreference 
-            android:icon="@drawable/icon_menu_resize"
-            android:key="@string/button_resize"
-            android:title="@string/button_resize"
+            android:icon="@drawable/icon_menu_crop"
+            android:key="@string/button_crop"
+            android:title="@string/button_crop"
             android:defaultValue="true"/>
     	<CheckBoxPreference 
             android:icon="@drawable/icon_menu_eraser"
@@ -83,12 +83,18 @@
             android:key="@string/button_move"
             android:title="@string/button_move"
             android:defaultValue="true"/>
-    	<CheckBoxPreference 
+    	<CheckBoxPreference
     	    android:icon="@drawable/icon_menu_undo"
     	    android:key="@string/button_undo"
     	    android:title="@string/button_undo"
     	    android:defaultValue="true"
     	    />
+        <CheckBoxPreference
+            android:icon="@drawable/icon_menu_texttool"
+            android:key="@string/button_texttool"
+            android:title="@string/button_texttool"
+            android:defaultValue="true"
+            />
 <!--     	android:summary="@string/preference_button_undo_summary" -->
     	<CheckBoxPreference 
     	    android:icon="@drawable/icon_menu_redo"
@@ -97,4 +103,10 @@
     	    android:defaultValue="true"
     	   />
 <!--     	 android:summary="@string/preference_button_redo_summary" -->
+      <CheckBoxPreference
+            android:icon="@drawable/icon_menu_replacecolortool"
+            android:key="@string/button_replacecolortool"
+            android:title="@string/button_replacecolortool"
+            android:defaultValue="true"
+             />
 </PreferenceScreen>
