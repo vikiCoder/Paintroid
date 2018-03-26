@@ -20,7 +20,6 @@
 package org.catrobat.paintroid.dialog.colorpicker;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.util.AttributeSet;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
@@ -46,13 +45,12 @@ public class HSVSelectorView extends LinearLayout {
 				ViewGroup.LayoutParams.MATCH_PARENT));
 		addView(hsvColorPickerView);
 	}
+
 	public HSVColorPickerView getHsvColorPickerView() {
 		return hsvColorPickerView;
 	}
 
 	public void setSelectedColor(int color) {
-		getHsvColorPickerView().setSelectedColor(color);
+		hsvColorPickerView.setSelectedColor(color);
 	}
-
-
 }
